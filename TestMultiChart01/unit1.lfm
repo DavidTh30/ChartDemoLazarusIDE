@@ -1,0 +1,240 @@
+object Form1: TForm1
+  Left = 513
+  Height = 534
+  Top = 117
+  Width = 994
+  Caption = 'Form1'
+  ClientHeight = 534
+  ClientWidth = 994
+  LCLVersion = '4.6.0.0'
+  object Chart1: TChart
+    Left = 8
+    Height = 407
+    Top = 16
+    Width = 622
+    AxisList = <    
+      item
+        Grid.Visible = False
+        Marks.LabelBrush.Style = bsClear
+        Minors = <>
+        Title.LabelFont.Orientation = 900
+        Title.LabelBrush.Style = bsClear
+        Transformations = ChartAxisTransformations1
+      end    
+      item
+        Grid.Visible = False
+        Alignment = calBottom
+        Marks.LabelFont.Orientation = 900
+        Marks.OnGetShape = Chart1ChartAxisMarksGetShape
+        Marks.Format = '%2:s'
+        Marks.LabelBrush.Style = bsClear
+        Marks.OverlapPolicy = opHideNeighbour
+        Marks.Source = ListChartSource1
+        Marks.Style = smsLabel
+        Minors = <>
+        Title.LabelBrush.Style = bsClear
+      end    
+      item
+        Grid.Visible = False
+        Marks.LabelBrush.Style = bsClear
+        Minors = <>
+        Range.Max = 100
+        Range.UseMax = True
+        Range.UseMin = True
+        Title.LabelBrush.Style = bsClear
+        Transformations = ChartAxisTransformations2
+      end    
+      item
+        Grid.Visible = False
+        Marks.LabelBrush.Style = bsClear
+        Minors = <>
+        Range.Max = 200
+        Range.Min = 50
+        Range.UseMax = True
+        Range.UseMin = True
+        Title.LabelBrush.Style = bsClear
+        Transformations = ChartAxisTransformations3
+      end>
+    Title.Text.Strings = (
+      'TAChart'
+    )
+    OnAfterDraw = Chart1AfterDraw
+    OnAfterPaint = Chart1AfterPaint
+    OnDrawLegend = Chart1DrawLegend
+    OnExtentChanged = Chart1ExtentChanged
+    OnExtentChanging = Chart1ExtentChanging
+    OnExtentValidate = Chart1ExtentValidate
+    OnFullExtentChanged = Chart1FullExtentChanged
+    BorderSpacing.OnChange = Chart1ControlBorderSpacingChange
+    OnClick = Chart1Click
+    OnContextPopup = Chart1ContextPopup
+    OnDblClick = Chart1DblClick
+    OnMouseUp = Chart1MouseUp
+    object Chart1LineSeries1: TLineSeries
+      AxisIndexY = 2
+      LinePen.Color = clRed
+      Marks.Visible = False
+      Source = ListChartSource1
+    end
+    object Chart1LineSeries2: TLineSeries
+      AxisIndexY = 3
+      LinePen.Color = clBlue
+      Marks.Visible = False
+      Source = ListChartSource2
+    end
+  end
+  object ScrollBar1: TScrollBar
+    Left = 656
+    Height = 330
+    Top = 32
+    Width = 24
+    Kind = sbVertical
+    Min = -100
+    PageSize = 0
+    TabOrder = 1
+    OnChange = ScrollBar1Change
+  end
+  object ScrollBar2: TScrollBar
+    Left = 696
+    Height = 330
+    Top = 32
+    Width = 24
+    Kind = sbVertical
+    Min = -100
+    PageSize = 0
+    TabOrder = 2
+    OnChange = ScrollBar2Change
+  end
+  object ScrollBar3: TScrollBar
+    Left = 736
+    Height = 330
+    Top = 32
+    Width = 24
+    Kind = sbVertical
+    Min = -100
+    PageSize = 0
+    TabOrder = 3
+    OnChange = ScrollBar3Change
+  end
+  object DividerBevel1: TDividerBevel
+    Left = 656
+    Height = 120
+    Top = 376
+    Width = 18
+    Caption = '0'
+    AutoSize = False
+    Font.Style = [fsBold]
+    LeftIndent = 20
+    Orientation = trVertical
+    ParentBiDiMode = False
+    ParentFont = False
+  end
+  object DividerBevel2: TDividerBevel
+    Left = 696
+    Height = 120
+    Top = 376
+    Width = 18
+    Caption = '0'
+    AutoSize = False
+    Font.Style = [fsBold]
+    LeftIndent = 20
+    Orientation = trVertical
+    ParentFont = False
+  end
+  object DividerBevel3: TDividerBevel
+    Left = 736
+    Height = 120
+    Top = 376
+    Width = 18
+    Caption = '0'
+    AutoSize = False
+    Font.Style = [fsBold]
+    LeftIndent = 20
+    Orientation = trVertical
+    ParentFont = False
+  end
+  object Label1: TLabel
+    Left = 632
+    Height = 28
+    Top = 104
+    Width = 18
+    Caption = 'Hello'
+    Font.Orientation = 900
+    ParentFont = False
+  end
+  object Memo1: TMemo
+    Left = 768
+    Height = 511
+    Top = 8
+    Width = 208
+    ScrollBars = ssAutoBoth
+    TabOrder = 4
+  end
+  object Button1: TButton
+    Left = 408
+    Height = 24
+    Top = 432
+    Width = 59
+    Caption = 'Current'
+    TabOrder = 5
+    OnClick = Button1Click
+  end
+  object Button2: TButton
+    Left = 404
+    Height = 28
+    Top = 456
+    Width = 63
+    Caption = 'Copy'
+    TabOrder = 6
+    OnClick = Button2Click
+  end
+  object Button3: TButton
+    Left = 408
+    Height = 26
+    Top = 488
+    Width = 53
+    Caption = 'Fource'
+    TabOrder = 7
+    OnClick = Button3Click
+  end
+  object ChartAxisTransformations2: TChartAxisTransformations
+    Left = 120
+    Top = 464
+    object T2: TAutoScaleAxisTransform
+    end
+  end
+  object ChartAxisTransformations3: TChartAxisTransformations
+    Left = 200
+    Top = 448
+    object T3: TAutoScaleAxisTransform
+    end
+  end
+  object ChartAxisTransformations1: TChartAxisTransformations
+    Left = 48
+    Top = 456
+    object T1: TAutoScaleAxisTransform
+    end
+  end
+  object Timer1: TTimer
+    Interval = 500
+    OnTimer = Timer1Timer
+    Left = 671
+    Top = 12
+  end
+  object ChartLiveView1: TChartLiveView
+    Active = True
+    Chart = Chart1
+    ExtentY = lveLogical
+    ViewportSize = 0.0005
+    Left = 344
+    Top = 416
+  end
+  object ListChartSource1: TListChartSource
+    Left = 142
+    Top = 321
+  end
+  object ListChartSource2: TListChartSource
+    Left = 264
+    Top = 321
+  end
+end
