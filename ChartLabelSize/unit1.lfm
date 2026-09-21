@@ -1,15 +1,15 @@
 object Form1: TForm1
   Left = 562
-  Height = 465
+  Height = 467
   Top = 170
   Width = 805
   BorderIcons = [biSystemMenu, biMinimize]
   BorderStyle = bsSingle
   Caption = 'ChartLabelSize'
-  ClientHeight = 465
+  ClientHeight = 467
   ClientWidth = 805
   Position = poWorkAreaCenter
-  LCLVersion = '3.4.0.0'
+  LCLVersion = '4.6.0.0'
   object Chart1: TChart
     Left = 0
     Height = 325
@@ -121,7 +121,7 @@ object Form1: TForm1
     Left = 227
     Height = 105
     Top = 328
-    Width = 245
+    Width = 244
     Caption = '1 = Chart.MarginsExternal.Left'#13#10'2 = Chart.LeftAxis.Margin'#13#10'3 = Chart.LeftAxis.Title.Margins.Top  '#13#10'4 = Chart.LeftAxis.Title.Distance'#13#10'5 = Chart.LeftAxis.LabelSize (or autosized)'#13#10'6 = Chart.Margins.Left'#13#10'7 = Chart.LeftAxis.Title.FixedSize (or autosized)'
   end
   object Image1: TImage
@@ -136,8 +136,15 @@ object Form1: TForm1
     Left = 440
     Height = 15
     Top = 440
-    Width = 272
+    Width = 274
     Caption = 'https://wiki.freepascal.org/TAChart_documentation'
+  end
+  object Label10: TLabel
+    Left = 8
+    Height = 15
+    Top = 448
+    Width = 40
+    Caption = 'Label10'
   end
   object ChartAxisTransformations3: TChartAxisTransformations
     Left = 344

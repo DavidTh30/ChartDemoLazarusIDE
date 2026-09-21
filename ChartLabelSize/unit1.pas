@@ -6,7 +6,8 @@ interface
 
 uses
   Classes, SysUtils, Forms, Controls, Graphics, Dialogs, ExtCtrls, StdCtrls,
-  TAGraph, TATransformations, TASeries, TAChartAxis;
+  TAGraph, TATransformations, TASeries, TAChartAxis, typinfo,
+  TAChartAxisUtils;
 
 type
 
@@ -26,6 +27,7 @@ type
     Image1: TImage;
     ImageList1: TImageList;
     Label1: TLabel;
+    Label10: TLabel;
     Label2: TLabel;
     Label3: TLabel;
     Label4: TLabel;
@@ -61,7 +63,7 @@ begin
   ComputedSize := Chart1.AxisList[2].LabelSize;
   Label2.Caption:='Label Size AxisList[2] : '+ ComputedSize.ToString;
   ComputedSize := Chart1.ClipRect.Left;
-  Label3.Caption:='Chart ClipRect : '+ ComputedSize.ToString;
+  Label3.Caption:='Chart ClipRect Left : '+ ComputedSize.ToString;
   //ComputedSize := Chart1.LeftAxis.MeasureLabels(Chart1.Canvas).X
   //showmessage(IntToStr(ComputedSize));
 
@@ -70,24 +72,25 @@ begin
     if axis.Index = 0 then
     begin
       ComputedSize := axis.MeasureLabelSize(Chart1.Drawer);
-      Label4.Caption:='Chart Axis['+axis.Index.ToString+'] LabelSize : '+ ComputedSize.ToString;
+      Label4.Caption:='Chart Axis['+axis.Index.ToString+'] '+GetEnumName(typeInfo(TChartAxisAlignment), Ord(axis.Alignment))+ ' LabelSize : '+ ComputedSize.ToString;
     end;
     if axis.Index = 1 then
     begin
       ComputedSize := axis.MeasureLabelSize(Chart1.Drawer);
-      Label5.Caption:='Chart Axis['+axis.Index.ToString+'] LabelSize : '+ ComputedSize.ToString;
+      Label5.Caption:='Chart Axis['+axis.Index.ToString+'] '+GetEnumName(typeInfo(TChartAxisAlignment), Ord(axis.Alignment))+ ' LabelSize : '+ ComputedSize.ToString;
     end;
     if axis.Index = 2 then
     begin
       ComputedSize := axis.MeasureLabelSize(Chart1.Drawer);
-      Label6.Caption:='Chart Axis['+axis.Index.ToString+'] LabelSize : '+ ComputedSize.ToString;
+      Label6.Caption:='Chart Axis['+axis.Index.ToString+'] '+GetEnumName(typeInfo(TChartAxisAlignment), Ord(axis.Alignment))+ ' LabelSize : '+ ComputedSize.ToString;
     end;
     if axis.Index = 3 then
     begin
       ComputedSize := axis.MeasureLabelSize(Chart1.Drawer);
-      Label7.Caption:='Chart Axis['+axis.Index.ToString+'] LabelSize : '+ ComputedSize.ToString;
+      Label7.Caption:='Chart Axis['+axis.Index.ToString+'] '+GetEnumName(typeInfo(TChartAxisAlignment), Ord(axis.Alignment))+ ' LabelSize : '+ ComputedSize.ToString;
     end;
   end;
+  Label10.Caption:='MarginsExternal Left: ' + Chart1.MarginsExternal.Left.ToString;
 end;
 
 end.
