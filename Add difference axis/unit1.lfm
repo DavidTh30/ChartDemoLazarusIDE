@@ -18,7 +18,7 @@ object Form1: TForm1
     Left = 0
     Height = 382
     Top = 8
-    Width = 561
+    Width = 753
     AxisList = <    
       item
         Grid.Visible = False
@@ -37,6 +37,7 @@ object Form1: TForm1
         Marks.LabelBrush.Style = bsClear
         Minors = <>
         Title.LabelBrush.Style = bsClear
+        OnGetMarkText = Chart1AxisList1GetMarkText
       end    
       item
         Grid.Visible = False
@@ -75,16 +76,16 @@ object Form1: TForm1
     end
   end
   object Button1: TButton
-    Left = 152
+    Left = 224
     Height = 32
     Top = 400
     Width = 92
-    Caption = 'Begin'
+    Caption = 'Initialize'
     TabOrder = 1
     OnClick = Button1Click
   end
   object Button2: TButton
-    Left = 288
+    Left = 360
     Height = 32
     Top = 400
     Width = 92
@@ -121,7 +122,7 @@ object Form1: TForm1
     Caption = 'Label4'
   end
   object Button3: TButton
-    Left = 288
+    Left = 360
     Height = 32
     Top = 432
     Width = 92
@@ -130,7 +131,7 @@ object Form1: TForm1
     OnClick = Button3Click
   end
   object Button4: TButton
-    Left = 152
+    Left = 224
     Height = 32
     Top = 432
     Width = 92
@@ -138,39 +139,76 @@ object Form1: TForm1
     TabOrder = 4
     OnClick = Button4Click
   end
+  object Label9: TLabel
+    Left = 144
+    Height = 15
+    Top = 472
+    Width = 34
+    Caption = 'Label9'
+  end
+  object Label11: TLabel
+    Left = 144
+    Height = 15
+    Top = 488
+    Width = 40
+    Caption = 'Label11'
+  end
+  object Data2: TLabel
+    Left = 296
+    Height = 15
+    Top = 469
+    Width = 30
+    Caption = 'Data2'
+  end
+  object Data3: TLabel
+    Left = 296
+    Height = 15
+    Top = 496
+    Width = 30
+    Caption = 'Data3'
+  end
+  object Button5: TButton
+    Left = 496
+    Height = 32
+    Top = 400
+    Width = 92
+    Caption = 'Add Data'
+    TabOrder = 5
+    OnClick = Button5Click
+  end
   object ListChartSource1: TListChartSource
-    Left = 613
-    Top = 31
+    Left = 344
+    Top = 64
   end
   object ListChartSource2: TListChartSource
-    Left = 603
-    Top = 93
+    Left = 334
+    Top = 126
   end
   object ListChartSource3: TListChartSource
-    Left = 597
-    Top = 150
+    Left = 328
+    Top = 183
   end
   object Timer1: TTimer
     Interval = 500
     OnTimer = Timer1Timer
-    Left = 598
-    Top = 234
+    Left = 329
+    Top = 267
   end
   object ChartAxisTransformations1: TChartAxisTransformations
-    Left = 454
-    Top = 408
+    Left = 400
+    Top = 272
     object ChartAxisTransformations1AutoScaleAxisTransform1: TAutoScaleAxisTransform
     end
   end
   object ChartAxisTransformations2: TChartAxisTransformations
-    Left = 571
-    Top = 414
+    Left = 506
+    Top = 272
     object ChartAxisTransformations2AutoScaleAxisTransform1: TAutoScaleAxisTransform
     end
   end
   object ChartAxisTransformations3: TChartAxisTransformations
-    Left = 661
-    Top = 425
+    Left = 610
+    Top = 272
     object ChartAxisTransformations3AutoScaleAxisTransform1: TAutoScaleAxisTransform
     end
   end
