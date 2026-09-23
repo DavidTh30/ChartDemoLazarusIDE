@@ -1,0 +1,233 @@
+object Form1: TForm1
+  Left = 513
+  Height = 527
+  Top = 117
+  Width = 758
+  BorderIcons = [biSystemMenu, biMinimize]
+  BorderStyle = bsSingle
+  Caption = 'Slide left axis'
+  ClientHeight = 527
+  ClientWidth = 758
+  Position = poWorkAreaCenter
+  LCLVersion = '4.6.0.0'
+  OnClose = FormClose
+  OnCreate = FormCreate
+  OnDockDrop = FormDockDrop
+  OnDockOver = FormDockOver
+  object Chart1: TChart
+    Left = 0
+    Height = 385
+    Top = 8
+    Width = 753
+    AxisList = <    
+      item
+        Grid.Visible = False
+        Marks.LabelBrush.Style = bsClear
+        Minors = <>
+        Range.Max = 1
+        Range.UseMax = True
+        Range.UseMin = True
+        Title.LabelFont.Orientation = 900
+        Title.LabelBrush.Style = bsClear
+        Transformations = ChartAxisTransformations1
+      end    
+      item
+        Grid.Visible = False
+        Alignment = calBottom
+        Marks.LabelBrush.Style = bsClear
+        Minors = <>
+        Title.LabelBrush.Style = bsClear
+        OnGetMarkText = Chart1AxisList1GetMarkText
+      end    
+      item
+        Grid.Visible = False
+        Marks.LabelBrush.Style = bsClear
+        Minors = <>
+        Range.Max = 10000
+        Range.Min = 100
+        Range.UseMax = True
+        Range.UseMin = True
+        Title.LabelBrush.Style = bsClear
+        Transformations = ChartAxisTransformations2
+      end    
+      item
+        Grid.Visible = False
+        Marks.LabelBrush.Style = bsClear
+        Minors = <>
+        Range.Max = 50
+        Range.Min = -50
+        Range.UseMax = True
+        Range.UseMin = True
+        Title.LabelBrush.Style = bsClear
+        Transformations = ChartAxisTransformations3
+      end>
+    Title.Text.Strings = (
+      'TAChart'
+    )
+    OnMouseDown = Chart1MouseDown
+    OnMouseLeave = Chart1MouseLeave
+    OnMouseMove = Chart1MouseMove
+    OnMouseUp = Chart1MouseUp
+    object Chart1LineSeries1: TLineSeries
+      AxisIndexX = 1
+      AxisIndexY = 0
+    end
+    object Chart1LineSeries2: TLineSeries
+      AxisIndexY = 2
+    end
+    object Chart1LineSeries3: TLineSeries
+      AxisIndexY = 3
+    end
+  end
+  object Button1: TButton
+    Left = 224
+    Height = 32
+    Top = 400
+    Width = 92
+    Caption = 'Initialize'
+    TabOrder = 1
+    OnClick = Button1Click
+  end
+  object Button2: TButton
+    Left = 360
+    Height = 32
+    Top = 400
+    Width = 92
+    Caption = 'Copy Exten'
+    TabOrder = 2
+    OnClick = Button2Click
+  end
+  object Label1: TLabel
+    Left = 17
+    Height = 15
+    Top = 400
+    Width = 34
+    Caption = 'Label1'
+  end
+  object Label2: TLabel
+    Left = 16
+    Height = 15
+    Top = 421
+    Width = 34
+    Caption = 'Label2'
+  end
+  object Label3: TLabel
+    Left = 16
+    Height = 15
+    Top = 445
+    Width = 34
+    Caption = 'Label3'
+  end
+  object Label4: TLabel
+    Left = 16
+    Height = 15
+    Top = 469
+    Width = 34
+    Caption = 'Label4'
+  end
+  object Button3: TButton
+    Left = 360
+    Height = 32
+    Top = 432
+    Width = 92
+    Caption = 'Paste Exten'
+    TabOrder = 3
+    OnClick = Button3Click
+  end
+  object Button4: TButton
+    Left = 224
+    Height = 32
+    Top = 432
+    Width = 92
+    Caption = 'Add'
+    TabOrder = 4
+    OnClick = Button4Click
+  end
+  object Label9: TLabel
+    Left = 144
+    Height = 15
+    Top = 472
+    Width = 34
+    Caption = 'Label9'
+  end
+  object Label11: TLabel
+    Left = 144
+    Height = 15
+    Top = 488
+    Width = 40
+    Caption = 'Label11'
+  end
+  object Data2: TLabel
+    Left = 296
+    Height = 15
+    Top = 469
+    Width = 30
+    Caption = 'Data2'
+  end
+  object Data3: TLabel
+    Left = 296
+    Height = 15
+    Top = 496
+    Width = 30
+    Caption = 'Data3'
+  end
+  object Button5: TButton
+    Left = 496
+    Height = 32
+    Top = 400
+    Width = 92
+    Caption = 'Add Data'
+    TabOrder = 5
+    OnClick = Button5Click
+  end
+  object Label8: TLabel
+    Left = 17
+    Height = 15
+    Top = 488
+    Width = 34
+    Caption = 'Label8'
+  end
+  object Label5: TLabel
+    Left = 16
+    Height = 15
+    Top = 504
+    Width = 34
+    Caption = 'Label5'
+  end
+  object ListChartSource1: TListChartSource
+    Left = 344
+    Top = 64
+  end
+  object ListChartSource2: TListChartSource
+    Left = 334
+    Top = 126
+  end
+  object ListChartSource3: TListChartSource
+    Left = 328
+    Top = 183
+  end
+  object Timer1: TTimer
+    Interval = 500
+    OnTimer = Timer1Timer
+    Left = 329
+    Top = 267
+  end
+  object ChartAxisTransformations1: TChartAxisTransformations
+    Left = 400
+    Top = 272
+    object ChartAxisTransformations1AutoScaleAxisTransform1: TAutoScaleAxisTransform
+    end
+  end
+  object ChartAxisTransformations2: TChartAxisTransformations
+    Left = 506
+    Top = 272
+    object ChartAxisTransformations2AutoScaleAxisTransform1: TAutoScaleAxisTransform
+    end
+  end
+  object ChartAxisTransformations3: TChartAxisTransformations
+    Left = 610
+    Top = 272
+    object ChartAxisTransformations3AutoScaleAxisTransform1: TAutoScaleAxisTransform
+    end
+  end
+end
