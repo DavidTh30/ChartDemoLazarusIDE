@@ -29,6 +29,7 @@ type
     ChartAxisTransformations2AutoScaleAxisTransform1: TAutoScaleAxisTransform;
     ChartAxisTransformations3: TChartAxisTransformations;
     ChartAxisTransformations3AutoScaleAxisTransform1: TAutoScaleAxisTransform;
+    ChartLiveView1: TChartLiveView;
     Label1: TLabel;
     Label11: TLabel;
     Label2: TLabel;
@@ -50,6 +51,8 @@ type
     procedure Button5Click(Sender: TObject);
     procedure Chart1AxisList1GetMarkText(Sender: TObject; var AText: String;
       AMark: Double);
+    procedure Chart1Click(Sender: TObject);
+    procedure Chart1DblClick(Sender: TObject);
     procedure Chart1MouseDown(Sender: TObject; Button: TMouseButton;
       Shift: TShiftState; X, Y: Integer);
     procedure Chart1MouseLeave(Sender: TObject);
@@ -541,6 +544,56 @@ procedure TForm1.Chart1AxisList1GetMarkText(Sender: TObject; var AText: String;
 begin
   if AMark>20000 then
   AText := TimeToStr(AMark); //DateToStr(AMark);
+end;
+
+procedure TForm1.Chart1Click(Sender: TObject);
+begin
+  NewExtent := Chart1.LogicalExtent;
+
+  if ChartLiveView1.Active then
+  begin
+    Chart1.Extent.XMax:=NewExtent.b.X;
+    Chart1.Extent.Xmin:=NewExtent.a.X;
+    Chart1.Extent.UseXMax:=true;
+    Chart1.Extent.UseXMin:=true;
+    //Memo1.Append('copy');
+  end
+  else
+  begin
+    Chart1.Extent.UseXMax:=false;
+    Chart1.Extent.UseXMin:=false;
+  end;
+
+  ChartLiveView1.Active:=false;
+  //Label1.Caption:='LiveView = '+ChartLiveView1.Active.ToInteger.ToString;
+
+  if not ChartLiveView1.Active then
+  begin
+    Chart1.Extent.XMax:=NewExtent.b.X;
+    Chart1.Extent.Xmin:=NewExtent.a.X;
+    Chart1.Extent.UseXMax:=true;
+    Chart1.Extent.UseXMin:=true;
+    //NewExtent.a.X := NewExtent.b.X - 0.0005;
+    Chart1.LogicalExtent := NewExtent;
+    //Memo1.Append('Fource')
+  end;
+  if ChartLiveView1.Active then
+  begin
+    Chart1.Extent.UseXMax:=false;
+    Chart1.Extent.UseXMin:=false;
+  end;
+end;
+
+procedure TForm1.Chart1DblClick(Sender: TObject);
+begin
+  //Memo1.Append('Chart1DblClick');
+  ChartLiveView1.Active:=true;
+  //Label1.Caption:='LiveView = '+ChartLiveView1.Active.ToInteger.ToString;
+  if ChartLiveView1.Active then
+  begin
+    Chart1.Extent.UseXMax:=false;
+    Chart1.Extent.UseXMin:=false;
+  end;
 end;
 
 procedure TForm1.Chart1MouseDown(Sender: TObject; Button: TMouseButton;

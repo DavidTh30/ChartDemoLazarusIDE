@@ -64,6 +64,8 @@ object Form1: TForm1
     Title.Text.Strings = (
       'TAChart'
     )
+    OnClick = Chart1Click
+    OnDblClick = Chart1DblClick
     OnMouseDown = Chart1MouseDown
     OnMouseLeave = Chart1MouseLeave
     OnMouseMove = Chart1MouseMove
@@ -229,5 +231,13 @@ object Form1: TForm1
     Top = 272
     object ChartAxisTransformations3AutoScaleAxisTransform1: TAutoScaleAxisTransform
     end
+  end
+  object ChartLiveView1: TChartLiveView
+    Active = True
+    Chart = Chart1
+    ExtentY = lveLogical
+    ViewportSize = 0.0005
+    Left = 440
+    Top = 216
   end
 end
