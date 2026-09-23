@@ -7,7 +7,7 @@ interface
 uses
   Classes, SysUtils, Forms, Controls, Graphics, Dialogs, ExtCtrls, StdCtrls,
   TAGraph, TATransformations, TASeries, TAChartAxis, typinfo, TAChartAxisUtils,
-  TASources, TATypes, TAIntervalSources, TATools, TAChartLiveView, TAChartUtils;
+  TASources, TATypes, TAIntervalSources, TATools, TAChartLiveView, TAChartUtils, Types;
 
 type
 
@@ -52,6 +52,8 @@ type
     procedure Chart1AxisList1GetMarkText(Sender: TObject; var AText: String;
       AMark: Double);
     procedure Chart1Click(Sender: TObject);
+    procedure Chart1ContextPopup(Sender: TObject; MousePos: TPoint;
+      var Handled: Boolean);
     procedure Chart1DblClick(Sender: TObject);
     procedure Chart1MouseDown(Sender: TObject; Button: TMouseButton;
       Shift: TShiftState; X, Y: Integer);
@@ -582,6 +584,14 @@ begin
     Chart1.Extent.UseXMax:=false;
     Chart1.Extent.UseXMin:=false;
   end;
+end;
+
+procedure TForm1.Chart1ContextPopup(Sender: TObject; MousePos: TPoint;
+  var Handled: Boolean);
+begin
+  //Memo1.Append('Chart1ContextPopup');
+  ChartLiveView1.Active:=false;
+  //Label1.Caption:='LiveView = '+ChartLiveView1.Active.ToInteger.ToString;
 end;
 
 procedure TForm1.Chart1DblClick(Sender: TObject);
