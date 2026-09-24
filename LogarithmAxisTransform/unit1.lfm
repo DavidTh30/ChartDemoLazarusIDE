@@ -1,0 +1,144 @@
+object Form1: TForm1
+  Left = 353
+  Height = 471
+  Top = 130
+  Width = 513
+  Caption = 'Form1'
+  ClientHeight = 471
+  ClientWidth = 513
+  OnCreate = FormCreate
+  LCLVersion = '2.1.0.0'
+  object Label1: TLabel
+    Left = 6
+    Height = 15
+    Top = 450
+    Width = 501
+    Align = alBottom
+    BorderSpacing.Around = 6
+    Caption = 'Contxt menu: click the right mouse button on a chart'
+    ParentColor = False
+  end
+  object Panel1: TPanel
+    Left = 0
+    Height = 444
+    Top = 0
+    Width = 513
+    Align = alClient
+    Caption = 'Panel1'
+    ChildSizing.EnlargeHorizontal = crsHomogenousChildResize
+    ChildSizing.EnlargeVertical = crsHomogenousChildResize
+    ChildSizing.Layout = cclLeftToRightThenTopToBottom
+    ChildSizing.ControlsPerLine = 1
+    ClientHeight = 444
+    ClientWidth = 513
+    TabOrder = 0
+    object Chart1: TChart
+      Left = 0
+      Height = 222
+      Top = 0
+      Width = 513
+      AxisList = <      
+        item
+          Marks.LabelBrush.Style = bsClear
+          Minors = <>
+          Title.LabelFont.Orientation = 900
+          Title.LabelBrush.Style = bsClear
+          Transformations = ChartAxisTransformations1
+        end      
+        item
+          Alignment = calBottom
+          Marks.LabelBrush.Style = bsClear
+          Minors = <>
+          Title.LabelBrush.Style = bsClear
+        end>
+      Foot.Brush.Color = clBtnFace
+      Foot.Font.Color = clBlue
+      Title.Brush.Color = clBtnFace
+      Title.Font.Color = clBlue
+      Title.Text.Strings = (
+        'TAChart'
+      )
+      PopupMenu = PopupMenu1
+      object Chart1LineSeries1: TLineSeries
+      end
+    end
+    object Chart2: TChart
+      Left = 0
+      Height = 222
+      Top = 222
+      Width = 513
+      AxisList = <      
+        item
+          Marks.LabelBrush.Style = bsClear
+          Minors = <>
+          Title.LabelFont.Orientation = 900
+          Title.LabelBrush.Style = bsClear
+          Transformations = ChartAxisTransformations2
+        end      
+        item
+          Alignment = calBottom
+          Marks.LabelBrush.Style = bsClear
+          Minors = <>
+          Title.LabelBrush.Style = bsClear
+        end>
+      Foot.Brush.Color = clBtnFace
+      Foot.Font.Color = clBlue
+      Title.Brush.Color = clBtnFace
+      Title.Font.Color = clBlue
+      Title.Text.Strings = (
+        'TAChart'
+      )
+      PopupMenu = PopupMenu1
+      object Chart2LineSeries1: TLineSeries
+      end
+    end
+  end
+  object PopupMenu1: TPopupMenu
+    OnPopup = PopupMenu1Popup
+    left = 235
+    top = 122
+    object mnuAutoScale: TMenuItem
+      Caption = 'Auto scale'
+      OnClick = mnuAutoScaleClick
+    end
+    object mnuSeparator1: TMenuItem
+      Caption = '-'
+    end
+    object mnuSetMax: TMenuItem
+      Caption = 'Set maximum'
+      OnClick = mnuSetMaxMinClick
+    end
+    object mnuSetMin: TMenuItem
+      Caption = 'Set minimum'
+      OnClick = mnuSetMaxMinClick
+    end
+    object mnuSeparator2: TMenuItem
+      Caption = '-'
+    end
+    object mnuLinear: TMenuItem
+      Caption = 'Linear'
+      Checked = True
+      OnClick = mnuLinLogClick
+    end
+    object mnuLogarithmic: TMenuItem
+      Caption = 'Logarithmic'
+      OnClick = mnuLinLogClick
+    end
+  end
+  object ChartAxisTransformations1: TChartAxisTransformations
+    left = 136
+    top = 88
+    object ChartAxisTransformations1LogarithmAxisTransform1: TLogarithmAxisTransform
+      Enabled = False
+      Base = 10
+    end
+  end
+  object ChartAxisTransformations2: TChartAxisTransformations
+    left = 136
+    top = 304
+    object ChartAxisTransformations2LogarithmAxisTransform1: TLogarithmAxisTransform
+      Enabled = False
+      Base = 10
+    end
+  end
+end
