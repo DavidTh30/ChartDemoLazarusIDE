@@ -5,6 +5,7 @@ ChartDemoLazarusIDE
 
 <img src="Add%20difference%20axis/SS01.png" width="300" height="300">  <img src="Slide%20left%20axis%2001/SS01.png" width="300" height="300">
 
+<img src="Distance%20between%20range/SS01.png" width="300" height="300">
 
 
 
