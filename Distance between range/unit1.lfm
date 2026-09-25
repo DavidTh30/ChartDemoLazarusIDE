@@ -1,0 +1,89 @@
+object Form1: TForm1
+  Left = 513
+  Height = 594
+  Top = 117
+  Width = 659
+  Caption = 'Distance between range (LogicalExtent)'
+  ClientHeight = 594
+  ClientWidth = 659
+  Position = poWorkAreaCenter
+  LCLVersion = '4.6.0.0'
+  object Chart1: TChart
+    Left = 136
+    Height = 381
+    Top = 24
+    Width = 503
+    AxisList = <    
+      item
+        Marks.LabelBrush.Style = bsClear
+        Minors = <>
+        Title.LabelFont.Orientation = 900
+        Title.LabelBrush.Style = bsClear
+      end    
+      item
+        Alignment = calBottom
+        Marks.LabelBrush.Style = bsClear
+        Minors = <>
+        Title.LabelBrush.Style = bsClear
+      end>
+    Title.Text.Strings = (
+      'TAChart'
+    )
+  end
+  object Label1: TLabel
+    Left = 160
+    Height = 35
+    Top = 416
+    Width = 18
+    Caption = 'Label1'
+    Font.Orientation = 900
+    ParentFont = False
+  end
+  object Label2: TLabel
+    Left = 621
+    Height = 35
+    Top = 416
+    Width = 18
+    Caption = 'Label2'
+    Font.Orientation = 900
+    ParentFont = False
+  end
+  object Label3: TLabel
+    Left = 64
+    Height = 15
+    Top = 368
+    Width = 34
+    Caption = 'Label3'
+  end
+  object Label4: TLabel
+    Left = 64
+    Height = 15
+    Top = 24
+    Width = 34
+    Caption = 'Label4'
+  end
+  object Label5: TLabel
+    Left = 152
+    Height = 35
+    Top = 464
+    Width = 18
+    Caption = 'Label5'
+    Font.Orientation = 900
+    ParentFont = False
+  end
+  object Label6: TLabel
+    Left = 632
+    Height = 35
+    Top = 464
+    Width = 18
+    Caption = 'Label6'
+    Font.Orientation = 900
+    ParentFont = False
+  end
+  object Timer1: TTimer
+    Interval = 500
+    OnTimer = Timer1Timer
+    Left = 528
+    Top = 256
+  end
+end
