@@ -1,0 +1,36 @@
+object Form1: TForm1
+  Left = 513
+  Height = 383
+  Top = 117
+  Width = 579
+  Caption = 'Chart1AfterDrawBackWall'
+  ClientHeight = 383
+  ClientWidth = 579
+  Position = poWorkAreaCenter
+  LCLVersion = '4.6.0.0'
+  object Chart1: TChart
+    Left = 24
+    Height = 300
+    Top = 24
+    Width = 486
+    AxisList = <    
+      item
+        Grid.Visible = False
+        Marks.LabelBrush.Style = bsClear
+        Minors = <>
+        Title.LabelFont.Orientation = 900
+        Title.LabelBrush.Style = bsClear
+      end    
+      item
+        Alignment = calBottom
+        Marks.LabelBrush.Style = bsClear
+        Minors = <>
+        Title.LabelBrush.Style = bsClear
+      end>
+    Title.Text.Strings = (
+      'TAChart'
+    )
+    OnAfterCustomDrawBackWall = Chart1AfterCustomDrawBackWall
+    OnAfterDrawBackWall = Chart1AfterDrawBackWall
+  end
+end
