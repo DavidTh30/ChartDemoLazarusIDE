@@ -1,0 +1,335 @@
+object Form1: TForm1
+  Left = 572
+  Height = 744
+  Top = 53
+  Width = 1036
+  Caption = 'Form1'
+  ClientHeight = 744
+  ClientWidth = 1036
+  LCLVersion = '4.6.0.0'
+  OnCreate = FormCreate
+  object Chart1: TChart
+    Left = 0
+    Height = 388
+    Top = 16
+    Width = 599
+    AllowZoom = False
+    AxisList = <    
+      item
+        Grid.Visible = False
+        Visible = False
+        Marks.LabelBrush.Style = bsClear
+        Minors = <>
+        Range.Max = 1
+        Range.UseMax = True
+        Range.UseMin = True
+        Title.LabelFont.Orientation = 900
+        Title.Caption = 'DefaultLeftAxis'
+        Title.LabelBrush.Style = bsClear
+        Transformations = ChartAxisTransformations1
+      end    
+      item
+        Grid.Visible = False
+        Alignment = calBottom
+        Marks.LabelFont.Orientation = 900
+        Marks.LabelBrush.Style = bsClear
+        Marks.OverlapPolicy = opHideNeighbour
+        Minors = <>
+        Range.Max = 1
+        Range.Min = -1
+        Range.UseMax = True
+        Range.UseMin = True
+        Title.Caption = 'DefaultBottomAxis'
+        Title.LabelBrush.Style = bsClear
+        Transformations = ChartAxisTransformations4
+        OnGetMarkText = Chart1AxisList1GetMarkText
+      end    
+      item
+        Grid.Visible = False
+        Marks.LabelFont.Color = clRed
+        Marks.LabelBrush.Style = bsClear
+        Minors = <>
+        Range.Max = 10
+        Range.Min = -10
+        Range.UseMax = True
+        Range.UseMin = True
+        Title.LabelBrush.Style = bsClear
+        Transformations = ChartAxisTransformations2
+      end    
+      item
+        Grid.Visible = False
+        Marks.LabelFont.Color = clBlue
+        Marks.LabelBrush.Style = bsClear
+        Minors = <>
+        Range.Max = 100
+        Range.Min = -100
+        Range.UseMax = True
+        Range.UseMin = True
+        Title.LabelBrush.Style = bsClear
+        Transformations = ChartAxisTransformations3
+      end>
+    Title.Text.Strings = (
+      'TAChart'
+    )
+    Toolset = ChartToolset1
+    OnAfterCustomDrawBackWall = Chart1AfterCustomDrawBackWall
+    OnAfterDrawBackground = Chart1AfterDrawBackground
+    OnAfterDrawBackWall = Chart1AfterDrawBackWall
+    OnDblClick = Chart1DblClick
+    OnMouseDown = Chart1MouseDown
+    OnMouseLeave = Chart1MouseLeave
+    OnMouseMove = Chart1MouseMove
+    OnMouseUp = Chart1MouseUp
+    object DefaultSeries: TLineSeries
+      Legend.Visible = False
+      AxisIndexX = 1
+      AxisIndexY = 0
+      LinePen.Color = clNone
+      LineType = ltNone
+      Source = DefaultSource
+    end
+    object Chart1LineSeries2: TLineSeries
+      AxisIndexX = 1
+      AxisIndexY = 2
+      LinePen.Color = clRed
+      Source = ListChartSource1
+    end
+    object Chart1LineSeries3: TLineSeries
+      AxisIndexX = 1
+      AxisIndexY = 3
+      LinePen.Color = clBlue
+      Source = ListChartSource2
+    end
+    object Chart1ConstantLine1: TConstantLine
+      LineStyle = lsVertical
+    end
+  end
+  object Memo1: TMemo
+    Left = 622
+    Height = 391
+    Top = 17
+    Width = 406
+    Lines.Strings = (
+      'Memo1'
+    )
+    ScrollBars = ssAutoBoth
+    TabOrder = 1
+    WordWrap = False
+  end
+  object Button1: TButton
+    Left = 350
+    Height = 34
+    Top = 436
+    Width = 80
+    Caption = 'Button1'
+    TabOrder = 2
+    OnClick = Button1Click
+  end
+  object Memo2: TMemo
+    Left = 622
+    Height = 324
+    Top = 416
+    Width = 406
+    Lines.Strings = (
+      'Memo1'
+    )
+    ScrollBars = ssAutoBoth
+    TabOrder = 3
+    WordWrap = False
+  end
+  object Label1: TLabel
+    Left = 8
+    Height = 15
+    Top = 416
+    Width = 34
+    Caption = 'Label1'
+  end
+  object Label2: TLabel
+    Left = 8
+    Height = 15
+    Top = 433
+    Width = 34
+    Caption = 'Label2'
+  end
+  object Label3: TLabel
+    Left = 8
+    Height = 15
+    Top = 457
+    Width = 34
+    Caption = 'Label3'
+  end
+  object Label4: TLabel
+    Left = 8
+    Height = 15
+    Top = 474
+    Width = 34
+    Caption = 'Label4'
+  end
+  object Label5: TLabel
+    Left = 8
+    Height = 15
+    Top = 512
+    Width = 34
+    Caption = 'Label5'
+  end
+  object Label6: TLabel
+    Left = 8
+    Height = 15
+    Top = 529
+    Width = 34
+    Caption = 'Label6'
+  end
+  object Label7: TLabel
+    Left = 8
+    Height = 15
+    Top = 551
+    Width = 34
+    Caption = 'Label7'
+  end
+  object Label8: TLabel
+    Left = 8
+    Height = 15
+    Top = 568
+    Width = 34
+    Caption = 'Label8'
+  end
+  object Label9: TLabel
+    Left = 8
+    Height = 15
+    Top = 608
+    Width = 34
+    Caption = 'Label9'
+  end
+  object Label10: TLabel
+    Left = 8
+    Height = 15
+    Top = 625
+    Width = 40
+    Caption = 'Label10'
+  end
+  object Label11: TLabel
+    Left = 8
+    Height = 15
+    Top = 653
+    Width = 40
+    Caption = 'Label11'
+  end
+  object Label12: TLabel
+    Left = 8
+    Height = 15
+    Top = 672
+    Width = 40
+    Caption = 'Label12'
+  end
+  object Label13: TLabel
+    Left = 8
+    Height = 15
+    Top = 700
+    Width = 40
+    Caption = 'Label13'
+  end
+  object Label14: TLabel
+    Left = 320
+    Height = 15
+    Top = 512
+    Width = 40
+    Caption = 'Label14'
+  end
+  object Label15: TLabel
+    Left = 320
+    Height = 15
+    Top = 529
+    Width = 40
+    Caption = 'Label15'
+  end
+  object ChartAxisTransformations1: TChartAxisTransformations
+    Left = 32
+    Top = 234
+    object ChartAxisTransformations1AutoScaleAxisTransform1: TAutoScaleAxisTransform
+    end
+  end
+  object ChartAxisTransformations2: TChartAxisTransformations
+    Left = 29
+    Top = 301
+    object ChartAxisTransformations2AutoScaleAxisTransform1: TAutoScaleAxisTransform
+    end
+  end
+  object ChartAxisTransformations3: TChartAxisTransformations
+    Left = 24
+    Top = 360
+    object ChartAxisTransformations3AutoScaleAxisTransform1: TAutoScaleAxisTransform
+    end
+  end
+  object ChartAxisTransformations4: TChartAxisTransformations
+    Left = 702
+    Top = 380
+    object ChartAxisTransformations4AutoScaleAxisTransform1: TAutoScaleAxisTransform
+    end
+  end
+  object ChartToolset1: TChartToolset
+    Left = 213
+    Top = 423
+    object ChartToolset1UserDefinedTool1: TUserDefinedTool
+      Shift = [ssLeft]
+      OnAfterMouseDown = ChartToolset1UserDefinedTool1AfterMouseDown
+      OnAfterMouseMove = ChartToolset1UserDefinedTool1AfterMouseMove
+      OnAfterMouseUp = ChartToolset1UserDefinedTool1AfterMouseUp
+    end
+    object ChartToolset1AxisClickTool1: TAxisClickTool
+      OnBeforeMouseWheelDown = ChartToolset1AxisClickTool1BeforeMouseWheelDown
+      OnBeforeMouseWheelUp = ChartToolset1AxisClickTool1BeforeMouseWheelUp
+    end
+  end
+  object DefaultSource: TListChartSource
+    Left = 120
+    Top = 423
+  end
+  object Timer1: TTimer
+    Interval = 500
+    OnTimer = Timer1Timer
+    Left = 245
+    Top = 84
+  end
+  object ListChartSource1: TListChartSource
+    Left = 118
+    Top = 484
+  end
+  object ListChartSource2: TListChartSource
+    Left = 119
+    Top = 540
+  end
+  object BottomAxisMenu: TPopupMenu
+    Left = 488
+    Top = 484
+    object UseCurrentHorizental: TMenuItem
+      Caption = 'Use current horizental'
+      OnClick = UseCurrentHorizentalClick
+    end
+    object Separator1: TMenuItem
+      Caption = '-'
+    end
+    object AutoHorizental: TMenuItem
+      Caption = 'Auto horizental'
+      OnClick = AutoHorizentalClick
+    end
+  end
+  object LeftAxisMenu: TPopupMenu
+    Left = 400
+    Top = 488
+    object ManualVartical: TMenuItem
+      Caption = 'Manual vartical'
+      OnClick = ManualVarticalClick
+    end
+    object Separator2: TMenuItem
+      Caption = '-'
+    end
+    object AutoRangeControl: TMenuItem
+      Caption = 'Auto range control'
+      OnClick = AutoRangeControlClick
+    end
+    object AutoVartical: TMenuItem
+      Caption = 'Auto vartical '
+      OnClick = AutoVarticalClick
+    end
+  end
+end
