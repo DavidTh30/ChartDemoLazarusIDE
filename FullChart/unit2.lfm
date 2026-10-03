@@ -1,0 +1,174 @@
+object Form2: TForm2
+  Left = 596
+  Height = 553
+  Top = 137
+  Width = 745
+  Caption = 'History'
+  ClientHeight = 553
+  ClientWidth = 745
+  Menu = MainMenu1
+  Position = poWorkAreaCenter
+  LCLVersion = '4.6.0.0'
+  Scaled = False
+  OnCreate = FormCreate
+  object Chart1: TChart
+    Left = 0
+    Height = 530
+    Top = 0
+    Width = 745
+    AllowZoom = False
+    AxisList = <    
+      item
+        Grid.Visible = False
+        Visible = False
+        Marks.Visible = False
+        Marks.LabelBrush.Style = bsClear
+        Minors = <>
+        Title.LabelFont.Orientation = 900
+        Title.LabelBrush.Style = bsClear
+        Transformations = DefaultLeftAxisTransform
+      end    
+      item
+        Grid.Visible = False
+        Alignment = calBottom
+        Marks.LabelBrush.Style = bsClear
+        Marks.OverlapPolicy = opHideNeighbour
+        Minors = <>
+        Title.LabelBrush.Style = bsClear
+        Transformations = DefaultBottomAxisTransform
+        OnGetMarkText = Chart1AxisList1GetMarkText
+      end>
+    Title.Text.Strings = (
+      'TAChart'
+    )
+    Toolset = ChartToolset1
+    OnAfterDrawBackWall = Chart1AfterDrawBackWall
+    Align = alClient
+    OnDblClick = Chart1DblClick
+    OnDragDrop = Chart1DragDrop
+    OnDragOver = Chart1DragOver
+    OnMouseDown = Chart1MouseDown
+    OnMouseLeave = Chart1MouseLeave
+    OnMouseMove = Chart1MouseMove
+    OnMouseUp = Chart1MouseUp
+    object DefaultSeries: TLineSeries
+      Legend.Visible = False
+      AxisIndexX = 1
+      AxisIndexY = 0
+      LinePen.Color = clNone
+      LineType = ltNone
+    end
+    object DefaultConstantLine: TConstantLine
+      Legend.Visible = False
+      LineStyle = lsVertical
+      Pen.Color = clNone
+      Pen.Style = psClear
+    end
+  end
+  object StatusBar1: TStatusBar
+    Left = 0
+    Height = 23
+    Top = 530
+    Width = 745
+    Panels = <    
+      item
+        Width = 100
+      end    
+      item
+        Width = 100
+      end    
+      item
+        Width = 100
+      end    
+      item
+        Width = 100
+      end    
+      item
+        Width = 100
+      end    
+      item
+        Width = 100
+      end>
+    SimplePanel = False
+  end
+  object MainMenu1: TMainMenu
+    Left = 280
+    Top = 232
+    object SettingMenu: TMenuItem
+      Caption = 'Setting'
+    end
+  end
+  object ChartToolset1: TChartToolset
+    Left = 349
+    Top = 227
+    object ChartToolset1UserDefinedTool1: TUserDefinedTool
+      Shift = [ssLeft]
+      OnAfterMouseMove = ChartToolset1UserDefinedTool1AfterMouseMove
+      OnAfterMouseUp = ChartToolset1UserDefinedTool1AfterMouseUp
+    end
+    object ChartToolset1AxisClickTool1: TAxisClickTool
+      OnBeforeMouseWheelDown = ChartToolset1AxisClickTool1BeforeMouseWheelDown
+      OnBeforeMouseWheelUp = ChartToolset1AxisClickTool1BeforeMouseWheelUp
+    end
+  end
+  object LeftAxisMenu: TPopupMenu
+    Left = 280
+    Top = 328
+    object ManualVartical: TMenuItem
+      Caption = 'Manual vartical'
+      OnClick = ManualVarticalClick
+    end
+    object Separator2: TMenuItem
+      Caption = '-'
+    end
+    object AutoRangeControl: TMenuItem
+      Caption = 'Auto range control'
+      OnClick = AutoRangeControlClick
+    end
+    object AutoVartical: TMenuItem
+      Caption = 'Auto vartical '
+      OnClick = AutoVarticalClick
+    end
+    object Separator3: TMenuItem
+      Caption = '-'
+    end
+    object DeleteAxis: TMenuItem
+      Caption = 'Delete Y Axis'
+      OnClick = DeleteAxisClick
+    end
+  end
+  object BottomAxisMenu: TPopupMenu
+    Left = 384
+    Top = 328
+    object UseCurrentHorizental: TMenuItem
+      Caption = 'Use current horizental'
+      OnClick = UseCurrentHorizentalClick
+    end
+    object Separator1: TMenuItem
+      Caption = '-'
+    end
+    object AutoHorizental: TMenuItem
+      Caption = 'Auto horizental'
+      OnClick = AutoHorizentalClick
+    end
+  end
+  object DefaultLeftAxisTransform: TChartAxisTransformations
+    Left = 53
+    Top = 121
+    object DefaultLeftAxisTransformAutoScaleAxis: TAutoScaleAxisTransform
+    end
+  end
+  object DefaultBottomAxisTransform: TChartAxisTransformations
+    Left = 538
+    Top = 440
+    object DefaultBottomAxisTransformAutoScaleAxis: TAutoScaleAxisTransform
+    end
+  end
+  object Timer1: TTimer
+    Enabled = False
+    Interval = 500
+    OnTimer = Timer1Timer
+    Left = 320
+    Top = 98
+  end
+end
