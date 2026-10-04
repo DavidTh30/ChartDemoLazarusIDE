@@ -10,61 +10,6 @@ uses
   TATransformations, TATypes, TASources, TACustomSource, Unit3, Types;
 
 type
-  MouseRec = record
-    IsDrag:boolean;
-    LeftDown:boolean;
-    RightDown:boolean;
-    LeftIndex:integer;
-    BottomIndex:integer;
-    DownLeftIndex:integer;
-    DownBottomIndex:integer;
-    DownSeriesStep:Double;
-    X1: integer;
-    X2: integer;
-    Y1: integer;
-    Y2: integer;
-  end;
-
-type
-  VerticalControl = record
-    ManualVartical:boolean;
-    AutoRangeControl:boolean;
-    AutoVartical:boolean;
-  end;
-
-type
-  ChartRec_ = record
-    ChartForwardCmd:boolean;
-    HorizontalSpace:double;
-    HorizontalDistance:double;
-    IsInside:boolean;
-    IsOutside:boolean;
-    X1: integer;
-    X2: integer;
-    Y1: integer;
-    Y2: integer;
-    ALB:integer;
-    AUB:integer;
-  end;
-
-type
-  abdor_ = record
-    Min:double;
-    Max:double;
-    d: double;
-    offsetMin: double;
-    offsetMax: double;
-    NewMin: double;
-    NewMax: double;
-  end;
-
-type
-  XY_ = record
-    X:abdor_;
-    Y:abdor_;
-  end;
-
-type
 
   { TForm2 }
 
@@ -248,8 +193,8 @@ begin
 
   ChartRec.ChartForwardCmd:=true;
   //0.000005 = 500ms
-  ChartRec.HorizontalSpace:=0.000005*((120/100)*20); //20% of 60Sec
-  ChartRec.HorizontalDistance:=0.000005*((120/100)*80);  //100%-HorizontalSpace  //80% of 60Sec
+  ChartRec.HorizontalSpace:=0.000005*((120*5/100)*20); //20% of (60Sec x 5)
+  ChartRec.HorizontalDistance:=0.000005*((120*5/100)*80);  //100%-HorizontalSpace  //80% of (60Sec x 5)
 
   Mouse_.IsDrag:=false;
   Mouse_.X1:=0;
@@ -261,6 +206,13 @@ begin
   DefaultConstantLine.Pen.Color:=clNone;
   DefaultConstantLine.Pen.Style:=psClear;
 
+  SetLength(V_Control, Chart1.AxisList.Count);
+  for i:=0 to Chart1.AxisList.Count-1 do
+  begin
+    V_Control[i].ManualVartical:=false;
+    V_Control[i].AutoRangeControl:=false;
+    V_Control[i].AutoVartical:=true;
+  end;
 
   if ObjIndex >= Low(Heater) then
   if ObjIndex <= High(Heater) then
@@ -285,52 +237,114 @@ begin
   AxisTransform:=TChartAxisTransformations.Create(Chart1);
   AutoScaleAxisTrans:=TAutoScaleAxisTransform.Create(AxisTransform);
   AutoScaleAxisTrans.Transformations:=AxisTransform;
+
   axis.Transformations:=AxisTransform;
   SetLength(V_Control, Chart1.AxisList.Count);
+  V_Control[axis.Index].DeviceIndex:=Heater[index_].DeviceIndex;
   V_Control[axis.Index].ManualVartical:=false;
   V_Control[axis.Index].AutoRangeControl:=false;
   V_Control[axis.Index].AutoVartical:=true;
 
+  if Pos(UpperCase('Enable'), UpperCase(ObjName))>0 then
+  begin
+    axis.Title.Caption:=Heater[index_].DeviceName+' Enable';
+    LineS.Source:=Heater[index_].Enable_.Source;
+
+    V_Control[axis.Index].VerDevProName:=Heater[index_].Enable_.PropertyName;
+    V_Control[axis.Index].PropertyIndex:=Heater[index_].Enable_.PropertyIndex;
+    V_Control[axis.Index].IsDigital:=Heater[index_].Enable_.IsDigital;
+    V_Control[axis.Index].GuideMin:= Heater[index_].Enable_.GuideMin;
+    V_Control[axis.Index].GuideMax:= Heater[index_].Enable_.GuideMax;
+    V_Control[axis.Index].OffsetMin:=0;
+    V_Control[axis.Index].OffsetMax:=0.1*axis.Index;
+  end;
+
   if Pos(UpperCase('Auto'), UpperCase(ObjName))>0 then
   begin
     axis.Title.Caption:=Heater[index_].DeviceName+' AutoMode';
-    LineS.Source:=Heater[index_].AutoData;
+    LineS.Source:=Heater[index_].Auto_.Source;
+
+    V_Control[axis.Index].VerDevProName:=Heater[index_].Auto_.PropertyName;
+    V_Control[axis.Index].PropertyIndex:=Heater[index_].Auto_.PropertyIndex;
+    V_Control[axis.Index].IsDigital:=Heater[index_].Auto_.IsDigital;
+    V_Control[axis.Index].GuideMin:= Heater[index_].Auto_.GuideMin;
+    V_Control[axis.Index].GuideMax:= Heater[index_].Auto_.GuideMax;
+    V_Control[axis.Index].OffsetMin:=0;
+    V_Control[axis.Index].OffsetMax:=0.1*axis.Index;
   end;
 
   if Pos(UpperCase('Name'), UpperCase(ObjName))>0 then
   begin
     axis.Title.Caption:=Heater[index_].DeviceName+' Start';
-    LineS.Source:=Heater[index_].StartData;
+    LineS.Source:=Heater[index_].Start_.Source;
+
+    V_Control[axis.Index].VerDevProName:=Heater[index_].Start_.PropertyName;
+    V_Control[axis.Index].PropertyIndex:=Heater[index_].Start_.PropertyIndex;
+    V_Control[axis.Index].IsDigital:=Heater[index_].Start_.IsDigital;
+    V_Control[axis.Index].GuideMin:= Heater[index_].Start_.GuideMin;
+    V_Control[axis.Index].GuideMax:= Heater[index_].Start_.GuideMax;
+    V_Control[axis.Index].OffsetMin:=0;
+    V_Control[axis.Index].OffsetMax:=0.1*axis.Index;
+  end;
+
+  if Pos(UpperCase('Fault'), UpperCase(ObjName))>0 then
+  begin
+    axis.Title.Caption:=Heater[index_].DeviceName+' Fault';
+    LineS.Source:=Heater[index_].Fault_.Source;
+
+    V_Control[axis.Index].VerDevProName:=Heater[index_].Fault_.PropertyName;
+    V_Control[axis.Index].PropertyIndex:=Heater[index_].Fault_.PropertyIndex;
+    V_Control[axis.Index].IsDigital:=Heater[index_].Fault_.IsDigital;
+    V_Control[axis.Index].GuideMin:= Heater[index_].Fault_.GuideMin;
+    V_Control[axis.Index].GuideMax:= Heater[index_].Fault_.GuideMax;
+    V_Control[axis.Index].OffsetMin:=0;
+    V_Control[axis.Index].OffsetMax:=0.1*axis.Index;
   end;
 
   if Pos(UpperCase('Set'), UpperCase(ObjName))>0 then
   begin
     axis.Title.Caption:=Heater[index_].DeviceName+' Setpoint';
-    LineS.Source:=Heater[index_].SetpointData;
+    LineS.Source:=Heater[index_].Setpoint_.Source;
+
+    V_Control[axis.Index].VerDevProName:=Heater[index_].Setpoint_.PropertyName;
+    V_Control[axis.Index].PropertyIndex:=Heater[index_].Setpoint_.PropertyIndex;
+    V_Control[axis.Index].IsDigital:=Heater[index_].Setpoint_.IsDigital;
+    V_Control[axis.Index].GuideMin:= Heater[index_].Setpoint_.GuideMin;
+    V_Control[axis.Index].GuideMax:= Heater[index_].Setpoint_.GuideMax;
+    V_Control[axis.Index].OffsetMin:=0;
+    V_Control[axis.Index].OffsetMax:=axis.Index;
   end;
 
   if Pos(UpperCase('Gain'), UpperCase(ObjName))>0 then
   begin
     axis.Title.Caption:=Heater[index_].DeviceName+' Gain';
-    LineS.Source:=Heater[index_].GainData;
+    LineS.Source:=Heater[index_].Gain_.Source;
+
+    V_Control[axis.Index].VerDevProName:=Heater[index_].Gain_.PropertyName;
+    V_Control[axis.Index].PropertyIndex:=Heater[index_].Gain_.PropertyIndex;
+    V_Control[axis.Index].IsDigital:=Heater[index_].Gain_.IsDigital;
+    V_Control[axis.Index].GuideMin:= Heater[index_].Gain_.GuideMin;
+    V_Control[axis.Index].GuideMax:= Heater[index_].Gain_.GuideMax;
+    V_Control[axis.Index].OffsetMin:=0;
+    V_Control[axis.Index].OffsetMax:=axis.Index;
   end;
 
   if Pos(UpperCase('Actual'), UpperCase(ObjName))>0 then
   begin
     axis.Title.Caption:=Heater[index_].DeviceName+' Actual';
-    LineS.Source:=Heater[index_].ActualData;
+    LineS.Source:=Heater[index_].Actual_.Source;
+
+    V_Control[axis.Index].VerDevProName:=Heater[index_].Actual_.PropertyName;
+    V_Control[axis.Index].PropertyIndex:=Heater[index_].Setpoint_.PropertyIndex;
+    V_Control[axis.Index].IsDigital:=Heater[index_].Actual_.IsDigital;
+    V_Control[axis.Index].GuideMin:= Heater[index_].Actual_.GuideMin;
+    V_Control[axis.Index].GuideMax:= Heater[index_].Actual_.GuideMax;
+    V_Control[axis.Index].OffsetMin:=0;
+    V_Control[axis.Index].OffsetMax:=axis.Index;
   end;
 
   LineS.Title:=axis.Title.Caption;
 
-  end;
-
-  SetLength(V_Control, Chart1.AxisList.Count);
-  for i:=0 to Chart1.AxisList.Count-1 do
-  begin
-    V_Control[i].ManualVartical:=false;
-    V_Control[i].AutoRangeControl:=false;
-    V_Control[i].AutoVartical:=true;
   end;
 
   Timer1.Enabled:=true;
@@ -382,11 +396,9 @@ begin
     begin
       i:=TLineSeries(ChartSeries_).AxisIndexY;
       i2:=High(V_Control);
-      StatusBar1.Panels[5].Text:= i2.ToString;
-      if V_Control[i].AutoVartical then
+
+    if V_Control[i].AutoVartical then
       begin
-        StatusBar1.Panels[3].Text:=TLineSeries(ChartSeries_).Source.Extent.a.Y.ToString;
-        StatusBar1.Panels[4].Text:=TLineSeries(ChartSeries_).Source.Extent.b.Y.ToString;
         aY:=TLineSeries(ChartSeries_).Source.Extent.a.Y;
         bY:=TLineSeries(ChartSeries_).Source.Extent.b.Y;
         if (aY=0) and (bY=0) then
@@ -395,6 +407,15 @@ begin
           bY:=bY+1;
         end;
         YMin:=aY;
+
+        if (V_Control[i].GuideMin<>0) or (V_Control[i].GuideMax<>0) then
+        begin
+          YMin:=V_Control[i].GuideMin+V_Control[i].OffsetMin;
+          YMax:=V_Control[i].GuideMax+V_Control[i].OffsetMax;
+          aY:=V_Control[i].GuideMin+V_Control[i].OffsetMin;
+          bY:=V_Control[i].GuideMax+V_Control[i].OffsetMax;
+        end;
+
         if (YMin+bY)<(YMin-bY) then
           YMin:=YMin+(bY/2)
         else
@@ -402,6 +423,7 @@ begin
         chart1.AxisList[i].Range.Min:=YMin;
         chart1.AxisList[i].Range.Max:=bY*1.5;
       end;
+
       if V_Control[i].AutoRangeControl then
       begin
         FindSourceYRangeManually(TListChartSource(TLineSeries(ChartSeries_).Source),Chart1.BottomAxis.Range.Min,Chart1.BottomAxis.Range.Max,YMin,YMax);
@@ -415,6 +437,7 @@ begin
         chart1.AxisList[i].Range.Min:=YMin;
         chart1.AxisList[i].Range.Max:=YMax*1.5;
       end;
+
     end;
   end;
 end;
@@ -518,16 +541,25 @@ begin
       LineS.Title:=axis.Title.Caption;
       LineS.AxisIndexX:=Chart1.BottomAxis.Index;
       LineS.AxisIndexY:=axis.Index;
-      LineS.Source:=Heater[index_].AutoData;
+      LineS.Source:=Heater[index_].Auto_.Source;
       LineS.SeriesColor:=RandomColor;
       AxisTransform:=TChartAxisTransformations.Create(Chart1);
       AutoScaleAxisTrans:=TAutoScaleAxisTransform.Create(AxisTransform);
       AutoScaleAxisTrans.Transformations:=AxisTransform;
       axis.Transformations:=AxisTransform;
       SetLength(V_Control, Chart1.AxisList.Count);
+      V_Control[axis.Index].DeviceIndex:=Heater[index_].DeviceIndex;
       V_Control[axis.Index].ManualVartical:=false;
       V_Control[axis.Index].AutoRangeControl:=false;
       V_Control[axis.Index].AutoVartical:=true;
+
+      V_Control[axis.Index].VerDevProName:=Heater[index_].Auto_.PropertyName;
+      V_Control[axis.Index].PropertyIndex:=Heater[index_].Auto_.PropertyIndex;
+      V_Control[axis.Index].IsDigital:=Heater[index_].Auto_.IsDigital;
+      V_Control[axis.Index].GuideMin:= Heater[index_].Auto_.GuideMin;
+      V_Control[axis.Index].GuideMax:= Heater[index_].Auto_.GuideMax;
+      V_Control[axis.Index].OffsetMin:=0;
+      V_Control[axis.Index].OffsetMax:=0.1*axis.Index;
     end;
 
     if Pos(UpperCase('Name'), UpperCase(Tlabel(Source).Name))>0 then
@@ -547,16 +579,61 @@ begin
       LineS.Title:=axis.Title.Caption;
       LineS.AxisIndexX:=Chart1.BottomAxis.Index;
       LineS.AxisIndexY:=axis.Index;
-      LineS.Source:=Heater[index_].StartData;
+      LineS.Source:=Heater[index_].Start_.Source;
       LineS.SeriesColor:=RandomColor;
       AxisTransform:=TChartAxisTransformations.Create(Chart1);
       AutoScaleAxisTrans:=TAutoScaleAxisTransform.Create(AxisTransform);
       AutoScaleAxisTrans.Transformations:=AxisTransform;
       axis.Transformations:=AxisTransform;
       SetLength(V_Control, Chart1.AxisList.Count);
+      V_Control[axis.Index].DeviceIndex:=Heater[index_].DeviceIndex;
       V_Control[axis.Index].ManualVartical:=false;
       V_Control[axis.Index].AutoRangeControl:=false;
       V_Control[axis.Index].AutoVartical:=true;
+
+      V_Control[axis.Index].VerDevProName:=Heater[index_].Start_.PropertyName;
+      V_Control[axis.Index].PropertyIndex:=Heater[index_].Start_.PropertyIndex;
+      V_Control[axis.Index].IsDigital:=Heater[index_].Start_.IsDigital;
+      V_Control[axis.Index].GuideMin:= Heater[index_].Start_.GuideMin;
+      V_Control[axis.Index].GuideMax:= Heater[index_].Start_.GuideMax;
+      V_Control[axis.Index].OffsetMin:=0;
+      V_Control[axis.Index].OffsetMax:=0.1*axis.Index;
+    end;
+
+    if Pos(UpperCase('Fault'), UpperCase(Tlabel(Source).Name))>0 then
+    begin
+      axis:=Chart1.AxisList.Add;
+      axis.Alignment:=calLeft;
+      axis.Title.Caption:=Heater[index_].DeviceName+' Fault';
+      axis.Title.Visible:=false;
+      axis.Grid.Visible:=false;
+      axis.Range.Max:=1;
+      axis.Range.Min:=0;
+      axis.Range.UseMax:=true;
+      axis.Range.UseMin:=true;
+      LineS:= TLineSeries.Create(Chart1);
+      Chart1.AddSeries(LineS);
+      LineS.Title:=axis.Title.Caption;
+      LineS.AxisIndexX:=Chart1.BottomAxis.Index;
+      LineS.AxisIndexY:=axis.Index;
+      LineS.Source:=Heater[index_].Fault_.Source;
+      AxisTransform:=TChartAxisTransformations.Create(Chart1);
+      AutoScaleAxisTrans:=TAutoScaleAxisTransform.Create(AxisTransform);
+      AutoScaleAxisTrans.Transformations:=AxisTransform;
+      axis.Transformations:=AxisTransform;
+      SetLength(V_Control, Chart1.AxisList.Count);
+      V_Control[axis.Index].DeviceIndex:=Heater[index_].DeviceIndex;
+      V_Control[axis.Index].ManualVartical:=false;
+      V_Control[axis.Index].AutoRangeControl:=false;
+      V_Control[axis.Index].AutoVartical:=true;
+
+      V_Control[axis.Index].VerDevProName:=Heater[index_].Fault_.PropertyName;
+      V_Control[axis.Index].PropertyIndex:=Heater[index_].Fault_.PropertyIndex;
+      V_Control[axis.Index].IsDigital:=Heater[index_].Fault_.IsDigital;
+      V_Control[axis.Index].GuideMin:= Heater[index_].Fault_.GuideMin;
+      V_Control[axis.Index].GuideMax:= Heater[index_].Fault_.GuideMax;
+      V_Control[axis.Index].OffsetMin:=0;
+      V_Control[axis.Index].OffsetMax:=0.1*axis.Index;
     end;
 
     if Pos(UpperCase('Set'), UpperCase(Tlabel(Source).Name))>0 then
@@ -575,15 +652,24 @@ begin
       LineS.Title:=axis.Title.Caption;
       LineS.AxisIndexX:=Chart1.BottomAxis.Index;
       LineS.AxisIndexY:=axis.Index;
-      LineS.Source:=Heater[index_].SetpointData;
+      LineS.Source:=Heater[index_].Setpoint_.Source;
       AxisTransform:=TChartAxisTransformations.Create(Chart1);
       AutoScaleAxisTrans:=TAutoScaleAxisTransform.Create(AxisTransform);
       AutoScaleAxisTrans.Transformations:=AxisTransform;
       axis.Transformations:=AxisTransform;
       SetLength(V_Control, Chart1.AxisList.Count);
+      V_Control[axis.Index].DeviceIndex:=Heater[index_].DeviceIndex;
       V_Control[axis.Index].ManualVartical:=false;
       V_Control[axis.Index].AutoRangeControl:=false;
       V_Control[axis.Index].AutoVartical:=true;
+
+      V_Control[axis.Index].VerDevProName:=Heater[index_].Setpoint_.PropertyName;
+      V_Control[axis.Index].PropertyIndex:=Heater[index_].Setpoint_.PropertyIndex;
+      V_Control[axis.Index].IsDigital:=Heater[index_].Setpoint_.IsDigital;
+      V_Control[axis.Index].GuideMin:= Heater[index_].Setpoint_.GuideMin;
+      V_Control[axis.Index].GuideMax:= Heater[index_].Setpoint_.GuideMax;
+      V_Control[axis.Index].OffsetMin:=0;
+      V_Control[axis.Index].OffsetMax:=axis.Index;
     end;
 
     if Pos(UpperCase('Gain'), UpperCase(Tlabel(Source).Name))>0 then
@@ -602,15 +688,24 @@ begin
       LineS.Title:=axis.Title.Caption;
       LineS.AxisIndexX:=Chart1.BottomAxis.Index;
       LineS.AxisIndexY:=axis.Index;
-      LineS.Source:=Heater[index_].GainData;
+      LineS.Source:=Heater[index_].Gain_.Source;
       AxisTransform:=TChartAxisTransformations.Create(Chart1);
       AutoScaleAxisTrans:=TAutoScaleAxisTransform.Create(AxisTransform);
       AutoScaleAxisTrans.Transformations:=AxisTransform;
       axis.Transformations:=AxisTransform;
       SetLength(V_Control, Chart1.AxisList.Count);
+      V_Control[axis.Index].DeviceIndex:=Heater[index_].DeviceIndex;
       V_Control[axis.Index].ManualVartical:=false;
       V_Control[axis.Index].AutoRangeControl:=false;
       V_Control[axis.Index].AutoVartical:=true;
+
+      V_Control[axis.Index].VerDevProName:=Heater[index_].Gain_.PropertyName;
+      V_Control[axis.Index].PropertyIndex:=Heater[index_].Gain_.PropertyIndex;
+      V_Control[axis.Index].IsDigital:=Heater[index_].Gain_.IsDigital;
+      V_Control[axis.Index].GuideMin:= Heater[index_].Gain_.GuideMin;
+      V_Control[axis.Index].GuideMax:= Heater[index_].Gain_.GuideMax;
+      V_Control[axis.Index].OffsetMin:=0;
+      V_Control[axis.Index].OffsetMax:=axis.Index;
     end;
 
     if Pos(UpperCase('Actual'), UpperCase(Tlabel(Source).Name))>0 then
@@ -629,15 +724,24 @@ begin
       LineS.Title:=axis.Title.Caption;
       LineS.AxisIndexX:=Chart1.BottomAxis.Index;
       LineS.AxisIndexY:=axis.Index;
-      LineS.Source:=Heater[index_].ActualData;
+      LineS.Source:=Heater[index_].Actual_.Source;
       AxisTransform:=TChartAxisTransformations.Create(Chart1);
       AutoScaleAxisTrans:=TAutoScaleAxisTransform.Create(AxisTransform);
       AutoScaleAxisTrans.Transformations:=AxisTransform;
       axis.Transformations:=AxisTransform;
       SetLength(V_Control, Chart1.AxisList.Count);
+      V_Control[axis.Index].DeviceIndex:=Heater[index_].DeviceIndex;
       V_Control[axis.Index].ManualVartical:=false;
       V_Control[axis.Index].AutoRangeControl:=false;
       V_Control[axis.Index].AutoVartical:=true;
+
+      V_Control[axis.Index].VerDevProName:=Heater[index_].Actual_.PropertyName;
+      V_Control[axis.Index].PropertyIndex:=Heater[index_].Actual_.PropertyIndex;
+      V_Control[axis.Index].IsDigital:=Heater[index_].Actual_.IsDigital;
+      V_Control[axis.Index].GuideMin:= Heater[index_].Actual_.GuideMin;
+      V_Control[axis.Index].GuideMax:= Heater[index_].Actual_.GuideMax;
+      V_Control[axis.Index].OffsetMin:=0;
+      V_Control[axis.Index].OffsetMax:=axis.Index;
     end;
   end;
 
@@ -663,17 +767,27 @@ begin
       LineS.Title:=axis.Title.Caption;
       LineS.AxisIndexX:=Chart1.BottomAxis.Index;
       LineS.AxisIndexY:=axis.Index;
-      LineS.Source:=Heater[index_].EnableData;
+      LineS.Source:=Heater[index_].Enable_.Source;
       AxisTransform:=TChartAxisTransformations.Create(Chart1);
       AutoScaleAxisTrans:=TAutoScaleAxisTransform.Create(AxisTransform);
       AutoScaleAxisTrans.Transformations:=AxisTransform;
       axis.Transformations:=AxisTransform;
       SetLength(V_Control, Chart1.AxisList.Count);
+      V_Control[axis.Index].DeviceIndex:=Heater[index_].DeviceIndex;
       V_Control[axis.Index].ManualVartical:=false;
       V_Control[axis.Index].AutoRangeControl:=false;
       V_Control[axis.Index].AutoVartical:=true;
+
+      V_Control[axis.Index].VerDevProName:=Heater[index_].Enable_.PropertyName;
+      V_Control[axis.Index].PropertyIndex:=Heater[index_].Enable_.PropertyIndex;
+      V_Control[axis.Index].IsDigital:=Heater[index_].Enable_.IsDigital;
+      V_Control[axis.Index].GuideMin:= Heater[index_].Enable_.GuideMin;
+      V_Control[axis.Index].GuideMax:= Heater[index_].Enable_.GuideMax;
+      V_Control[axis.Index].OffsetMin:=0;
+      V_Control[axis.Index].OffsetMax:=0.1*axis.Index;
     end;
   end;
+
 end;
 
 procedure TForm2.Chart1DragOver(Sender, Source: TObject; X, Y: Integer;
@@ -735,9 +849,6 @@ begin
       begin
         MouseDownSeries:=TLineSeries(ChartSeries_).Index;
         Mouse_.DownSeriesStep:=ABS(MouseDownRangeMin-MouseDownRangeMax)/ABS(ChartRec.Y2-ChartRec.Y1);
-        StatusBar1.Panels[0].Text:=MouseDownRangeMin.ToString;
-        StatusBar1.Panels[1].Text:=MouseDownRangeMax.ToString;
-        StatusBar1.Panels[2].Text:=Mouse_.DownSeriesStep.ToString;
       end;
     end;
   end;

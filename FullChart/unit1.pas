@@ -82,14 +82,13 @@ begin
   if (Index_ < Low(Heater)) or (Index_> High(Heater)) then exit;
 
   t:=Now();
-
-  Heater[Index_].EnableData.Add(t,Heater[Index_].Enable.ToInteger);
-  Heater[Index_].StartData.Add(t,Heater[Index_].Start.ToInteger);  //Add(t,RandG(56.1, 9.5));
-  Heater[Index_].AutoData.Add(t,Heater[Index_].Auto.ToInteger);  //Add(t,RandG(56.1, 90.5));
-  Heater[Index_].FaultData.Add(t,Heater[Index_].Fault.ToInteger);
-  Heater[Index_].SetpointData.Add(t,Heater[Index_].Setpoint);  //Add(t,RandG(56.1, 9.5));
-  Heater[Index_].ActualData.Add(t,Heater[Index_].Actual);  //Add(t,RandG(56.1, 90.5));
-  Heater[Index_].GainData.Add(t,Heater[Index_].Gain);
+  Heater[Index_].Enable_.Source.Add(t,Heater[Index_].Enable.ToInteger);
+  Heater[Index_].Start_.Source.Add(t,Heater[Index_].Start.ToInteger);  //Add(t,RandG(56.1, 9.5));
+  Heater[Index_].Auto_.Source.Add(t,Heater[Index_].Auto.ToInteger);  //Add(t,RandG(56.1, 90.5));
+  Heater[Index_].Fault_.Source.Add(t,Heater[Index_].Fault.ToInteger);
+  Heater[Index_].Setpoint_.Source.Add(t,Heater[Index_].Setpoint);  //Add(t,RandG(56.1, 9.5));
+  Heater[Index_].Actual_.Source.Add(t,Heater[Index_].Actual);  //Add(t,RandG(56.1, 90.5));
+  Heater[Index_].Gain_.Source.Add(t,Heater[Index_].Gain);
 end;
 
 procedure TForm1.InitData(Index_:integer);
@@ -103,7 +102,7 @@ begin
     DefaultData:=TListChartSource.Create(Form1);
     DefaultData.Name:='DefaultData_';
     t:=Now();
-    t:=t-(0.000005*120);    //500ms x 120 =60sec
+    t:=t-(0.000005*120*7);    //500ms x 120 x 7 = 60sec x 7
     for i := 0 to 119 do
     begin
       DefaultData.Add(t,0);
@@ -112,25 +111,74 @@ begin
     exit;
   end;
 
-  Heater[Index_].EnableData:=TListChartSource.Create(Form1);
-  Heater[Index_].StartData:=TListChartSource.Create(Form1);
-  Heater[Index_].AutoData:=TListChartSource.Create(Form1);
-  Heater[Index_].FaultData:=TListChartSource.Create(Form1);
-  Heater[Index_].SetpointData:=TListChartSource.Create(Form1);
-  Heater[Index_].ActualData:=TListChartSource.Create(Form1);
-  Heater[Index_].GainData:=TListChartSource.Create(Form1);
+  Heater[Index_].Enable_.Source:=TListChartSource.Create(Form1);
+  Heater[Index_].Enable_.Source.Name:='Enable_'+IntToStr(Index_);
+  Heater[Index_].Enable_.PropertyName:='Enable';
+  Heater[Index_].Enable_.PropertyIndex:=0;
+  Heater[Index_].Enable_.GuideMin:=-0.5;
+  Heater[Index_].Enable_.GuideMax:=1.5;
+  Heater[Index_].Enable_.IsDigital:=true;
+
+  Heater[Index_].Start_.Source:=TListChartSource.Create(Form1);
+  Heater[Index_].Start_.Source.Name:='Start_'+IntToStr(Index_);
+  Heater[Index_].Start_.PropertyName:='Start';
+  Heater[Index_].Start_.PropertyIndex:=1;
+  Heater[Index_].Start_.GuideMin:=-0.5;
+  Heater[Index_].Start_.GuideMax:=1.5;
+  Heater[Index_].Start_.IsDigital:=true;
+
+  Heater[Index_].Auto_.Source:=TListChartSource.Create(Form1);
+  Heater[Index_].Auto_.Source.Name:='Auto_'+IntToStr(Index_);
+  Heater[Index_].Auto_.PropertyName:='Auto';
+  Heater[Index_].Auto_.PropertyIndex:=2;
+  Heater[Index_].Auto_.GuideMin:=-0.5;
+  Heater[Index_].Auto_.GuideMax:=1.5;
+  Heater[Index_].Auto_.IsDigital:=true;
+
+  Heater[Index_].Fault_.Source:=TListChartSource.Create(Form1);
+  Heater[Index_].Fault_.Source.Name:='Fault_'+IntToStr(Index_);
+  Heater[Index_].Fault_.PropertyName:='Fault';
+  Heater[Index_].Fault_.PropertyIndex:=3;
+  Heater[Index_].Fault_.GuideMin:=-0.5;
+  Heater[Index_].Fault_.GuideMax:=1.5;
+  Heater[Index_].Fault_.IsDigital:=true;
+
+  Heater[Index_].Setpoint_.Source:=TListChartSource.Create(Form1);
+  Heater[Index_].Setpoint_.Source.Name:='Setpoint_'+IntToStr(Index_);
+  Heater[Index_].Setpoint_.PropertyName:='Setpoint';
+  Heater[Index_].Setpoint_.PropertyIndex:=4;
+  Heater[Index_].Setpoint_.GuideMin:=0;
+  Heater[Index_].Setpoint_.GuideMax:=0;
+  Heater[Index_].Setpoint_.IsDigital:=false;
+
+  Heater[Index_].Actual_.Source:=TListChartSource.Create(Form1);
+  Heater[Index_].Actual_.Source.Name:='Actual_'+IntToStr(Index_);
+  Heater[Index_].Actual_.PropertyName:='Actual';
+  Heater[Index_].Actual_.PropertyIndex:=5;
+  Heater[Index_].Actual_.GuideMin:=0;
+  Heater[Index_].Actual_.GuideMax:=0;
+  Heater[Index_].Actual_.IsDigital:=false;
+
+  Heater[Index_].Gain_.Source:=TListChartSource.Create(Form1);
+  Heater[Index_].Gain_.Source.Name:='Gain_'+IntToStr(Index_);
+  Heater[Index_].Gain_.PropertyName:='Gain';
+  Heater[Index_].Gain_.PropertyIndex:=6;
+  Heater[Index_].Gain_.GuideMin:=-110;
+  Heater[Index_].Gain_.GuideMax:=110;
+  Heater[Index_].Gain_.IsDigital:=false;
+
   t:=Now();
 
-  t:=t-(0.000005*120);    //500ms x 120 =60sec
+  t:=t-(0.000005*120*7);    //500ms x 120 x 7 = 60sec x 7
   for i := 0 to 119 do
   begin
-    Heater[Index_].EnableData.Add(t,0);
-    Heater[Index_].StartData.Add(t,0);  //Add(t,RandG(56.1, 9.5));
-    Heater[Index_].AutoData.Add(t,0);  //Add(t,RandG(56.1, 90.5));
-    Heater[Index_].FaultData.Add(t,0);
-    Heater[Index_].SetpointData.Add(t,0);  //Add(t,RandG(56.1, 9.5));
-    Heater[Index_].ActualData.Add(t,0);  //Add(t,RandG(56.1, 90.5));
-    Heater[Index_].GainData.Add(t,0);
+    Heater[Index_].Enable_.Source.Add(t,0);
+    Heater[Index_].Start_.Source.Add(t,0);  //Add(t,RandG(56.1, 9.5));
+    Heater[Index_].Auto_.Source.Add(t,0);  //Add(t,RandG(56.1, 90.5));
+    Heater[Index_].Fault_.Source.Add(t,0);
+    Heater[Index_].Setpoint_.Source.Add(t,0);  //Add(t,RandG(56.1, 9.5));
+    Heater[Index_].Actual_.Source.Add(t,0);  //Add(t,RandG(56.1, 90.5));
+    Heater[Index_].Gain_.Source.Add(t,0);
     t:=t+0.000005
   end;
 end;
@@ -346,7 +394,9 @@ begin
   SetLength(Heater, 2);
   for i:=Low(Heater) to High(Heater) do
   begin
-    Heater[i].DeviceName:='Heater'+FormatFloat('00', i+1);
+    Heater[i].DeviceType:='Heater';
+    Heater[i].DeviceIndex:=i;
+    Heater[i].DeviceName:=Heater[i].DeviceType+FormatFloat('00', i+1);
     Heater[i].ObjectNumber:=FormatFloat('00', i+1);
     Heater[i].Auto:=true;
     Heater[i].Enable:=true;
