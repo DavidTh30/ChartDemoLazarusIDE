@@ -59,6 +59,7 @@ type
     procedure HeaterEvents(ObjectNumber:string; Index_:integer);
     procedure HeaterProcess(ObjectNumber:string; Index_:integer);
     procedure AddData(Index_:integer);
+    procedure LimitData(Index_:integer);
   end;
 
 var
@@ -89,6 +90,20 @@ begin
   Heater[Index_].Setpoint_.Source.Add(t,Heater[Index_].Setpoint);  //Add(t,RandG(56.1, 9.5));
   Heater[Index_].Actual_.Source.Add(t,Heater[Index_].Actual);  //Add(t,RandG(56.1, 90.5));
   Heater[Index_].Gain_.Source.Add(t,Heater[Index_].Gain);
+end;
+
+procedure TForm1.LimitData(Index_:integer);
+begin
+  if (Index_ < Low(Heater)) or (Index_> High(Heater)) then exit;
+
+  if Heater[Index_].Auto_.Source.Count>57600 then Heater[Index_].Auto_.Source.Delete(0);
+  if Heater[Index_].Start_.Source.Count>57600 then Heater[Index_].Start_.Source.Delete(0);
+  if Heater[Index_].Enable_.Source.Count>57600 then Heater[Index_].Enable_.Source.Delete(0);
+  if Heater[Index_].Fault_.Source.Count>57600 then Heater[Index_].Fault_.Source.Delete(0);
+  if Heater[Index_].Setpoint_.Source.Count>57600 then Heater[Index_].Setpoint_.Source.Delete(0);
+  if Heater[Index_].Gain_.Source.Count>57600 then Heater[Index_].Gain_.Source.Delete(0);
+  if Heater[Index_].Actual_.Source.Count>57600 then Heater[Index_].Actual_.Source.Delete(0);
+
 end;
 
 procedure TForm1.InitData(Index_:integer);
@@ -539,6 +554,9 @@ begin
   DefaultData.Add(t,0);
   AddData(0);
   AddData(1);
+
+  LimitData(0);
+  LimitData(1);
 end;
 
 end.
