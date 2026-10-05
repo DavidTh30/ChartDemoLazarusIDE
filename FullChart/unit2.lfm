@@ -101,14 +101,14 @@ object Form2: TForm2
   object ChartToolset1: TChartToolset
     Left = 349
     Top = 227
-    object ChartToolset1UserDefinedTool1: TUserDefinedTool
+    object LeftDragRect: TUserDefinedTool
       Shift = [ssLeft]
-      OnAfterMouseMove = ChartToolset1UserDefinedTool1AfterMouseMove
-      OnAfterMouseUp = ChartToolset1UserDefinedTool1AfterMouseUp
+      OnAfterMouseMove = LeftDragRectAfterMouseMove
+      OnAfterMouseUp = LeftDragRectAfterMouseUp
     end
-    object ChartToolset1AxisClickTool1: TAxisClickTool
-      OnBeforeMouseWheelDown = ChartToolset1AxisClickTool1BeforeMouseWheelDown
-      OnBeforeMouseWheelUp = ChartToolset1AxisClickTool1BeforeMouseWheelUp
+    object MouseWheel: TAxisClickTool
+      OnBeforeMouseWheelDown = MouseWheelBeforeMouseWheelDown
+      OnBeforeMouseWheelUp = MouseWheelBeforeMouseWheelUp
     end
   end
   object LeftAxisMenu: TPopupMenu

@@ -103,7 +103,7 @@ begin
     DefaultData.Name:='DefaultData_';
     t:=Now();
     t:=t-(0.000005*120*7);    //500ms x 120 x 7 = 60sec x 7
-    for i := 0 to 119 do
+    for i := 0 to 119*7 do
     begin
       DefaultData.Add(t,0);
       t:=t+0.000005
@@ -170,7 +170,7 @@ begin
   t:=Now();
 
   t:=t-(0.000005*120*7);    //500ms x 120 x 7 = 60sec x 7
-  for i := 0 to 119 do
+  for i := 0 to 119*7 do
   begin
     Heater[Index_].Enable_.Source.Add(t,0);
     Heater[Index_].Start_.Source.Add(t,0);  //Add(t,RandG(56.1, 9.5));
@@ -410,7 +410,6 @@ begin
   InitData(-1);
 
   Heater[0].Setpoint:=100;
-  Heater[0].Gain:=-1;
   InitData(0);
   Heater[1].Setpoint:=200;
   InitData(1);
@@ -506,6 +505,30 @@ procedure TForm1.Timer1Timer(Sender: TObject);
 begin
   HeaterEvents(Heater[0].ObjectNumber,0);
   HeaterEvents(Heater[1].ObjectNumber,1);
+
+  if Heater[0].Start then
+  begin
+    if RandG(10, 1) > Heater[0].Gain then
+      Heater[0].Gain:=StrToFloat(FormatFloat('0.0', Heater[0].Gain+0.1))
+    else
+      Heater[0].Gain:=StrToFloat(FormatFloat('0.0', Heater[0].Gain-0.1))
+  end
+  else  Heater[0].Gain:=0;
+
+  if  Heater[0].Gain > 10.1 then Heater[0].Actual:=Heater[0].Actual+0.1;
+  if  (Heater[0].Gain < 10.1) and (Heater[0].Actual>32) then Heater[0].Actual:=Heater[0].Actual-0.1;
+
+  if Heater[1].Start then
+  begin
+    if RandG(10, 1) > Heater[1].Gain then
+      Heater[1].Gain:=StrToFloat(FormatFloat('0.0', Heater[1].Gain+0.1))
+    else
+      Heater[1].Gain:=StrToFloat(FormatFloat('0.0', Heater[1].Gain-0.1))
+  end
+  else  Heater[1].Gain:=0;
+
+  if  Heater[1].Gain > 10.1 then Heater[1].Actual:=Heater[1].Actual+0.1;
+  if  (Heater[1].Gain < 10.1) and (Heater[1].Actual>32) then Heater[1].Actual:=Heater[1].Actual-0.1;
 end;
 
 procedure TForm1.Timer2Timer(Sender: TObject);

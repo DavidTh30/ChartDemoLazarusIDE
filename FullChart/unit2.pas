@@ -26,8 +26,8 @@ type
     DefaultConstantLine: TConstantLine;
     DefaultSeries: TLineSeries;
     ChartToolset1: TChartToolset;
-    ChartToolset1AxisClickTool1: TAxisClickTool;
-    ChartToolset1UserDefinedTool1: TUserDefinedTool;
+    MouseWheel: TAxisClickTool;
+    LeftDragRect: TUserDefinedTool;
     LeftAxisMenu: TPopupMenu;
     MainMenu1: TMainMenu;
     ManualVartical: TMenuItem;
@@ -57,13 +57,13 @@ type
       );
     procedure Chart1MouseUp(Sender: TObject; Button: TMouseButton;
       Shift: TShiftState; X, Y: Integer);
-    procedure ChartToolset1AxisClickTool1BeforeMouseWheelDown(
+    procedure MouseWheelBeforeMouseWheelDown(
       ATool: TChartTool; APoint: TPoint);
-    procedure ChartToolset1AxisClickTool1BeforeMouseWheelUp(ATool: TChartTool;
+    procedure MouseWheelBeforeMouseWheelUp(ATool: TChartTool;
       APoint: TPoint);
-    procedure ChartToolset1UserDefinedTool1AfterMouseMove(ATool: TChartTool;
+    procedure LeftDragRectAfterMouseMove(ATool: TChartTool;
       APoint: TPoint);
-    procedure ChartToolset1UserDefinedTool1AfterMouseUp(ATool: TChartTool;
+    procedure LeftDragRectAfterMouseUp(ATool: TChartTool;
       APoint: TPoint);
     procedure DeleteAxisClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
@@ -99,6 +99,99 @@ implementation
 {$R *.lfm}
 
 { TForm2 }
+
+procedure AutoV(Vertical_:VerticalControl; Ya: double; Yb: double; var Ymin: double; var Ymax: double);
+var
+  Y_tempo:double;
+  Distance_:double;
+begin
+  Distance_:=Abs(Yb-Ya);
+  if Distance_=0 then Distance_:=Abs(Vertical_.GuideMax-Vertical_.GuideMin);
+  if Distance_=0 then Distance_:=2;
+
+  if Vertical_.IsDigital then    //case digital 0,1
+  begin
+    Ymin:=Vertical_.GuideMin;
+    Ymax:=Vertical_.GuideMax;
+    if (Ymin<=0) and (Ymax<=0) then begin Ymin:=0.5; Ymax:=1.5; end;
+    Ymin:=Ymin+Vertical_.OffsetMin;
+    Ymax:=Ymax+Vertical_.OffsetMax;
+  end
+  else
+  begin    //Analog
+    Ymin:=Vertical_.GuideMin;
+    Ymax:=Vertical_.GuideMax;
+
+    if (Vertical_.GuideMin<0) and (Vertical_.GuideMin<Ya) and (Vertical_.GuideMax>0) then
+    Ymin:=Ya;
+
+    if (Ya<=Yb) then
+    begin
+      if (Ymin>Ya) then Ymin:=Ya;
+      if (Ymax<Yb) and (Ymax>=0) then Ymax:=Yb;
+    end
+    else
+    begin
+      if (Ymax>Yb) then Ymax:=Yb;
+      if (Ymin<Ya) and (Ymin>=0) then Ymin:=Ya;
+    end;
+
+    if (Ymin=0) and (Ymax=0) then begin Ymin:=Ya; Ymax:=Yb; end;
+    if (Ymin=0) and (Ymax=0) then begin Ymin:=0.5; Ymax:=1.5; end;
+    if (Ymin>0) and (Ymax>0) then begin Ymin:=0; end;
+    if (Ymin<0) and (Ymax<0) and (Ymin<Ymax) then begin Ymax:=0; end;
+    if (Ymin<0) and (Ymax<0) and (Ymin>Ymax) then begin Ymin:=0; end;
+
+    Y_tempo:=Ymax;
+    if (Ymax<350) and (Ymax>=0) then Y_tempo:=350;
+    if (Ymax<300) and (Ymax>=0) then Y_tempo:=300;
+    if (Ymax<250) and (Ymax>=0) then Y_tempo:=250;
+    if (Ymax<200) and (Ymax>=0) then Y_tempo:=200;
+    if (Ymax<150) and (Ymax>=0) then Y_tempo:=150;
+    if (Ymax<120) and (Ymax>=0) then Y_tempo:=120;
+    if (Ymax<100) and (Ymax>=0) then Y_tempo:=100;
+    if (Ymax<50) and (Ymax>=0) then Y_tempo:=50;
+    if (Ymax<10) and (Ymax>=0) then Y_tempo:=10;
+    if (Ymax<5) and (Ymax>=0) then Y_tempo:=5;
+    Ymax:=Y_tempo;
+
+    Y_tempo:=Ymin;
+    if (Ymin>-350) and (Ymin<0) then Y_tempo:= (-350);
+    if (Ymin>-300) and (Ymin<0) then Y_tempo:= (-300);
+    if (Ymin>-250) and (Ymin<0) then Y_tempo:= (-250);
+    if (Ymin>-200) and (Ymin<0) then Y_tempo:= (-200);
+    if (Ymin>-150) and (Ymin<0) then Y_tempo:= (-150);
+    if (Ymin>-120) and (Ymin<0) then Y_tempo:= (-120);
+    if (Ymin>-100) and (Ymin<0) then Y_tempo:= (-100);
+    if (Ymin>-50) and (Ymin<0) then Y_tempo:= (-50);
+    if (Ymin>-10) and (Ymin<0) then Y_tempo:= (-10);
+    if (Ymin>-5) and (Ymin<0) then Y_tempo:= (-5);
+    Ymin:=Y_tempo;
+
+    if Ymax < Ymin then
+    begin
+      Y_tempo:=Ymin;
+      Ymin:=Ymax;
+      Ymax:=Y_tempo;
+    end;
+
+    if (Ymax >=0) then
+    begin
+      if (Ya<=Yb) and (Yb < (Ymax-(Distance_/20)*Vertical_.OffsetMax)) then
+      Ymax:= Ymax-((Distance_/20)*Vertical_.OffsetMax)
+      else
+      Ymax:= Ymax+((Distance_/20)*Vertical_.OffsetMax);
+      if (Ya>Yb) and (Ya < (Ymax-(Distance_/20)*Vertical_.OffsetMax)) then
+      Ymax:= Ymax-((Distance_/20)*Vertical_.OffsetMax)
+      else
+      Ymax:= Ymax+((Distance_/20)*Vertical_.OffsetMax);
+    end;
+    if (Ymax < 0) then Ymin:= Ymin+((Distance_/70)*Vertical_.OffsetMin);
+    if (Ymin =0) then Ymin:= Ymin-((Distance_/70)*Vertical_.OffsetMin);
+    Ymin:=Ymin;
+  end;
+
+end;
 
 procedure TForm2.FindSourceYRangeManually(Source: TListChartSource; MinX, MaxX: Double; var MinY, MaxY: Double);
 var
@@ -311,7 +404,7 @@ begin
     V_Control[axis.Index].IsDigital:=Heater[index_].Setpoint_.IsDigital;
     V_Control[axis.Index].GuideMin:= Heater[index_].Setpoint_.GuideMin;
     V_Control[axis.Index].GuideMax:= Heater[index_].Setpoint_.GuideMax;
-    V_Control[axis.Index].OffsetMin:=0;
+    V_Control[axis.Index].OffsetMin:=axis.Index;
     V_Control[axis.Index].OffsetMax:=axis.Index;
   end;
 
@@ -325,7 +418,7 @@ begin
     V_Control[axis.Index].IsDigital:=Heater[index_].Gain_.IsDigital;
     V_Control[axis.Index].GuideMin:= Heater[index_].Gain_.GuideMin;
     V_Control[axis.Index].GuideMax:= Heater[index_].Gain_.GuideMax;
-    V_Control[axis.Index].OffsetMin:=0;
+    V_Control[axis.Index].OffsetMin:=axis.Index;
     V_Control[axis.Index].OffsetMax:=axis.Index;
   end;
 
@@ -339,7 +432,7 @@ begin
     V_Control[axis.Index].IsDigital:=Heater[index_].Actual_.IsDigital;
     V_Control[axis.Index].GuideMin:= Heater[index_].Actual_.GuideMin;
     V_Control[axis.Index].GuideMax:= Heater[index_].Actual_.GuideMax;
-    V_Control[axis.Index].OffsetMin:=0;
+    V_Control[axis.Index].OffsetMin:=axis.Index;
     V_Control[axis.Index].OffsetMax:=axis.Index;
   end;
 
@@ -399,29 +492,14 @@ begin
 
     if V_Control[i].AutoVartical then
       begin
-        aY:=TLineSeries(ChartSeries_).Source.Extent.a.Y;
-        bY:=TLineSeries(ChartSeries_).Source.Extent.b.Y;
-        if (aY=0) and (bY=0) then
-        begin
-          aY:=aY-1;
-          bY:=bY+1;
-        end;
-        YMin:=aY;
-
-        if (V_Control[i].GuideMin<>0) or (V_Control[i].GuideMax<>0) then
-        begin
-          YMin:=V_Control[i].GuideMin+V_Control[i].OffsetMin;
-          YMax:=V_Control[i].GuideMax+V_Control[i].OffsetMax;
-          aY:=V_Control[i].GuideMin+V_Control[i].OffsetMin;
-          bY:=V_Control[i].GuideMax+V_Control[i].OffsetMax;
-        end;
-
-        if (YMin+bY)<(YMin-bY) then
-          YMin:=YMin+(bY/2)
-        else
-          YMin:=YMin-(bY/2);
+        AutoV(V_Control[i],
+              TLineSeries(ChartSeries_).Source.Extent.a.Y,
+              TLineSeries(ChartSeries_).Source.Extent.b.Y,
+              YMin, YMax);
+        StatusBar1.Panels[0].Text:=TLineSeries(ChartSeries_).Source.Extent.a.Y.ToString;
+        StatusBar1.Panels[1].Text:=TLineSeries(ChartSeries_).Source.Extent.b.Y.ToString;
         chart1.AxisList[i].Range.Min:=YMin;
-        chart1.AxisList[i].Range.Max:=bY*1.5;
+        chart1.AxisList[i].Range.Max:=YMax;
       end;
 
       if V_Control[i].AutoRangeControl then
@@ -668,7 +746,7 @@ begin
       V_Control[axis.Index].IsDigital:=Heater[index_].Setpoint_.IsDigital;
       V_Control[axis.Index].GuideMin:= Heater[index_].Setpoint_.GuideMin;
       V_Control[axis.Index].GuideMax:= Heater[index_].Setpoint_.GuideMax;
-      V_Control[axis.Index].OffsetMin:=0;
+      V_Control[axis.Index].OffsetMin:=axis.Index;
       V_Control[axis.Index].OffsetMax:=axis.Index;
     end;
 
@@ -704,7 +782,7 @@ begin
       V_Control[axis.Index].IsDigital:=Heater[index_].Gain_.IsDigital;
       V_Control[axis.Index].GuideMin:= Heater[index_].Gain_.GuideMin;
       V_Control[axis.Index].GuideMax:= Heater[index_].Gain_.GuideMax;
-      V_Control[axis.Index].OffsetMin:=0;
+      V_Control[axis.Index].OffsetMin:=axis.Index;
       V_Control[axis.Index].OffsetMax:=axis.Index;
     end;
 
@@ -740,7 +818,7 @@ begin
       V_Control[axis.Index].IsDigital:=Heater[index_].Actual_.IsDigital;
       V_Control[axis.Index].GuideMin:= Heater[index_].Actual_.GuideMin;
       V_Control[axis.Index].GuideMax:= Heater[index_].Actual_.GuideMax;
-      V_Control[axis.Index].OffsetMin:=0;
+      V_Control[axis.Index].OffsetMin:=axis.Index;
       V_Control[axis.Index].OffsetMax:=axis.Index;
     end;
   end;
@@ -997,7 +1075,7 @@ begin
   Mouse_.DownSeriesStep:=0;
 end;
 
-procedure TForm2.ChartToolset1AxisClickTool1BeforeMouseWheelDown(
+procedure TForm2.MouseWheelBeforeMouseWheelDown(
   ATool: TChartTool; APoint: TPoint);
 var
   step:double;
@@ -1039,7 +1117,7 @@ begin
   end;
 end;
 
-procedure TForm2.ChartToolset1AxisClickTool1BeforeMouseWheelUp(
+procedure TForm2.MouseWheelBeforeMouseWheelUp(
   ATool: TChartTool; APoint: TPoint);
 var
   step:double;
@@ -1081,7 +1159,7 @@ begin
   end;
 end;
 
-procedure TForm2.ChartToolset1UserDefinedTool1AfterMouseMove(ATool: TChartTool;
+procedure TForm2.LeftDragRectAfterMouseMove(ATool: TChartTool;
   APoint: TPoint);
 var
   i:integer;
@@ -1100,6 +1178,13 @@ begin
   if (Mouse_.DownBottomIndex >=0) or (Mouse_.DownLeftIndex >=0) then exit;
 
   ChartRec.ChartForwardCmd:=false;
+  for i:= low(V_Control) to High(V_Control) do
+  begin
+    V_Control[i].ManualVartical:=true;
+    V_Control[i].AutoVartical:=false;
+    V_Control[i].AutoRangeControl:=false;
+  end;
+
   DefaultConstantLine.Position:=0;
   DefaultConstantLine.Active:=not DefaultConstantLine.Active;
 
@@ -1127,7 +1212,7 @@ begin
 
 end;
 
-procedure TForm2.ChartToolset1UserDefinedTool1AfterMouseUp(ATool: TChartTool;
+procedure TForm2.LeftDragRectAfterMouseUp(ATool: TChartTool;
   APoint: TPoint);
 var
   axis:TChartAxis;
