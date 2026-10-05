@@ -209,9 +209,9 @@ begin
 
   Name_.Caption:=Heater[Index_].DeviceName;
   if ABS(Heater[Index_].Setpoint-Heater[Index_].Actual)>5 then Heater[Index_].InRange:=false else Heater[Index_].InRange:=true;
-  Set_.Caption:=Heater[Index_].Setpoint.ToString + ' C';
-  Actual_.Caption:=Heater[Index_].Actual.ToString + ' C';
-  Gain_.Caption:=Heater[Index_].Gain.ToString + '%';
+  Set_.Caption:=FormatFloat('0.0', Heater[Index_].Setpoint) + ' C';
+  Actual_.Caption:=FormatFloat('0.0', Heater[Index_].Actual) + ' C';
+  Gain_.Caption:=FormatFloat('0.0', Heater[Index_].Gain)  + '%';
 
   if Heater[Index_].Auto then
   begin
